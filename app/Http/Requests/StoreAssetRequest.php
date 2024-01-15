@@ -23,7 +23,7 @@ class StoreAssetRequest extends FormRequest
             'name'         => 'required',
             'supplier_name' => 'required',
             'quantity' => 'required',
-            'description' => 'required'
+            'ageing_in_days' => 'required',
         ];
 
     }
