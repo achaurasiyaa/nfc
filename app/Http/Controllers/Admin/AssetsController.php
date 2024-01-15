@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateAssetRequest;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Item;
 
 class AssetsController extends Controller
 {
@@ -17,9 +18,9 @@ class AssetsController extends Controller
     {
         abort_if(Gate::denies('asset_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $assets = Asset::all();
+        $items = Item::all();
 
-        return view('admin.assets.index', compact('assets'));
+        return view('admin.assets.index', compact('items'));
     }
 
     public function create()
@@ -31,7 +32,7 @@ class AssetsController extends Controller
 
     public function store(StoreAssetRequest $request)
     {
-        $asset = Asset::create($request->all());
+        $asset = Item::create($request->all());
 
         return redirect()->route('admin.assets.index');
 

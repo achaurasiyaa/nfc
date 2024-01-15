@@ -68,8 +68,8 @@ return [
         ],
     ],
     'asset'         => [
-        'title'          => 'Assets',
-        'title_singular' => 'Asset',
+        'title'          => 'Items',
+        'title_singular' => 'Item',
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',

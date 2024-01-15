@@ -16,62 +16,68 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Asset">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-Item">
                 <thead>
                     <tr>
                         <th width="10">
 
                         </th>
                         <th>
-                            {{ trans('cruds.asset.fields.id') }}
+                            Id
                         </th>
                         <th>
-                            {{ trans('cruds.asset.fields.name') }}
+                            Name
                         </th>
                         <th>
-                            {{ trans('cruds.asset.fields.description') }}
+                            Supplier Name
                         </th>
                         <th>
-                            Danger level
+                            Quantity
                         </th>
                         <th>
-                            &nbsp;
+                            Expire Age
+                        </th>
+                        <th>
+                            Action
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($assets as $key => $asset)
-                        <tr data-entry-id="{{ $asset->id }}">
+                    @foreach($items as $key => $item)
+                        <tr data-entry-id="{{ $item->id }}">
                             <td>
 
                             </td>
                             <td>
-                                {{ $asset->id ?? '' }}
+                                {{ $item->id ?? '' }}
                             </td>
                             <td>
-                                {{ $asset->name ?? '' }}
+                                {{ $item->name ?? '' }}
                             </td>
                             <td>
-                                {{ $asset->description ?? '' }}
+                                {{ $item->supplier_name ?? '' }}
                             </td>
                             <td>
-                                {{ $asset->danger_level }}
+                                {{ $item->quantity ?? '' }}
+                            </td>
+                            <td>
+                                {{ $item->ageing_in_days ?? ''}}
                             </td>
                             <td>
                                 @can('asset_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.assets.show', $asset->id) }}">
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.assets.show', $item->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
                                 @can('asset_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.assets.edit', $asset->id) }}">
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.assets.edit', $item->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
 
                                 @can('asset_delete')
-                                    <form action="{{ route('admin.assets.destroy', $asset->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <form action="{{ route('admin.assets.destroy', $item->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">

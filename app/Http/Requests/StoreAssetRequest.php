@@ -21,7 +21,9 @@ class StoreAssetRequest extends FormRequest
     {
         return [
             'name'         => 'required',
-            'danger_level' => 'required|integer',
+            'supplier_name' => 'required',
+            'quantity' => 'required',
+            'description' => 'required'
         ];
 
     }
