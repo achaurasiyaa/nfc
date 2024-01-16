@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Asset;
+use App\Item;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +21,6 @@ class UpdateAssetRequest extends FormRequest
     {
         return [
             'name'         => 'required',
-            'danger_level' => 'required|integer',
         ];
 
     }

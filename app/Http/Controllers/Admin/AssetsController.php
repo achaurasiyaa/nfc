@@ -11,6 +11,7 @@ use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Item;
+use App\Worker;
 
 class AssetsController extends Controller
 {
@@ -38,16 +39,23 @@ class AssetsController extends Controller
 
     }
 
-    public function edit(Asset $asset)
+    public function edit(Item $asset)
     {
         abort_if(Gate::denies('asset_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('admin.assets.edit', compact('asset'));
     }
 
-    public function update(UpdateAssetRequest $request, Asset $asset)
+    public function update(UpdateAssetRequest $request, Item $item)
     {
-        $asset->update($request->all());
+        try
+        {
+            $item->update($request->all());
+        }
+        catch (\Exception $e) {
+            // Log or display the error message
+            dd($e->getMessage());
+        }
 
         return redirect()->route('admin.assets.index');
 
@@ -76,5 +84,10 @@ class AssetsController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
 
+    }
+
+    public function addWorkers(Worker $request)
+    {
+        return view('workers.create');
     }
 }

@@ -20,17 +20,41 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.asset.fields.name_helper') }}</span>
             </div>
-           
+
             <div class="form-group">
-                <label class="required" for="danger_level">Danger level</label>
-                <input class="form-control {{ $errors->has('danger_level') ? 'is-invalid' : '' }}" type="number" name="danger_level" id="danger_level" value="{{ old('danger_level', $asset->danger_level) }}" required>
-                @if($errors->has('danger_level'))
+                <label for="quantity">Quantity</label>
+                <input class="form-control {{ $errors->has('quantity') ? 'is-invalid' : '' }}" type="number" name="quantity" id="quantity" value="{{ old('quantity', $asset->quantity) }}" required>
+                @if($errors->has('quantity'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('danger_level') }}
+                        {{ $errors->first('quantity') }}
                     </div>
                 @endif
                 <span class="help-block"></span>
             </div>
+
+            <div class="form-group">
+                <label for="supplier_name">Supplier Name</label>
+                <input class="form-control {{ $errors->has('supplier_name') ? 'is-invalid' : '' }}" type="text" name="supplier_name" id="supplier_name" value="{{ old('supplier_name', $asset->supplier_name) }}" required>
+                @if($errors->has('supplier_name'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('supplier_name') }}
+                    </div>
+                @endif
+                <span class="help-block"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label for="ageing_in_days">Expire Age</label>
+                <input class="form-control {{ $errors->has('ageing_in_days') ? 'is-invalid' : '' }}" type="number" name="ageing_in_days" id="ageing_in_days" value="{{ old('ageing_in_days', $asset->ageing_in_days) }}" required>
+                @if($errors->has('ageing_in_days'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('ageing_in_days') }}
+                    </div>
+                @endif
+                <span class="help-block"></span>
+            </div>
+
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
