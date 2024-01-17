@@ -74,6 +74,16 @@
                     </a>
                 </li>
             @endcan
+            @can('vendor_access')
+            <li class="nav-item">
+                <a href="{{ route("admin.vendor.index") }}" class="nav-link {{ request()->is('admin/vendor') || request()->is('admin/vendor/*') ? 'active' : '' }}">
+                    <i class="fa-fw fas fa-cogs nav-icon">
+
+                    </i>
+                    Add Vendor
+                </a>
+            </li>
+        @endcan
             @can('stock_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.stocks.index") }}" class="nav-link {{ request()->is('admin/stocks') || request()->is('admin/stocks/*') ? 'active' : '' }}">

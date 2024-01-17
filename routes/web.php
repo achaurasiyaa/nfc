@@ -30,6 +30,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('assets/destroy', 'AssetsController@massDestroy')->name('assets.massDestroy');
     Route::resource('assets', 'AssetsController');
 
+     // Vendor
+     Route::delete('vendor/destroy', 'VendorController@massDestroy')->name('vendor.massDestroy');
+     Route::resource('vendor', 'VendorController');
+
     // Teams
     Route::delete('teams/destroy', 'TeamController@massDestroy')->name('teams.massDestroy');
     Route::resource('teams', 'TeamController');
