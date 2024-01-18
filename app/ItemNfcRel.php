@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
+use App\Item;
 
 class ItemNfcRel extends Model
 {
@@ -27,5 +28,9 @@ class ItemNfcRel extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
     }
 }

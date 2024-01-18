@@ -61,3 +61,5 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
     }
 
 });
+
+Route::get('/nfc/{nfc_serial_number}', 'NfcController@show')->name('nfc.show');
