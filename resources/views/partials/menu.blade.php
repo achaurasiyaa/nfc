@@ -64,11 +64,10 @@
                     </a>
                 </li>
             @endcan
-            @can('asset_access')
+            @can('worker_access')
                 <li class="nav-item">
-                    <a href="{{ route("admin.assets.index") }}" class="nav-link {{ request()->is('admin/assets') || request()->is('admin/assets/*') ? 'active' : '' }}">
+                    <a href="{{ route("admin.worker.index") }}" class="nav-link {{ request()->is('admin/worker') || request()->is('admin/worker/*') ? 'active' : '' }}">
                         <i class="fa-fw fas fa-cogs nav-icon">
-
                         </i>
                         Add Worker
                     </a>
