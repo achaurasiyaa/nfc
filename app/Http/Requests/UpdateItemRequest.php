@@ -2,16 +2,16 @@
 
 namespace App\Http\Requests;
 
-use App\Asset;
+use App\Item;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class StoreAssetRequest extends FormRequest
+class UpdateItemRequest extends FormRequest
 {
     public function authorize()
     {
-        abort_if(Gate::denies('asset_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('item_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
 
@@ -21,9 +21,6 @@ class StoreAssetRequest extends FormRequest
     {
         return [
             'name'         => 'required',
-            'supplier_name' => 'required',
-            'quantity' => 'required',
-            'ageing_in_days' => 'required',
         ];
 
     }

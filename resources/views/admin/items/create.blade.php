@@ -3,21 +3,21 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.create') }} {{ trans('cruds.asset.title_singular') }}
+        {{ trans('global.create') }} {{ trans('cruds.item.title_singular') }}
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.assets.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.items.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label class="required" for="name">{{ trans('cruds.asset.fields.name') }}</label>
+                <label class="required" for="name">{{ trans('cruds.item.fields.name') }}</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
                 @if($errors->has('name'))
                     <div class="invalid-feedback">
                         {{ $errors->first('name') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.asset.fields.name_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.item.fields.name_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="quantity">Quantity</label>
@@ -27,7 +27,7 @@
                         {{ $errors->first('quantity') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.asset.fields.name_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.item.fields.name_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="supplier_name">Supplier Name</label>
@@ -37,7 +37,7 @@
                         {{ $errors->first('supplier_name') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.asset.fields.name_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.item.fields.name_helper') }}</span>
             </div>
 
             <div class="form-group">
@@ -55,7 +55,7 @@
                         {{ $errors->first('ageing_in_days') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.asset.fields.name_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.item.fields.name_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

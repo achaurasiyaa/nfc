@@ -54,13 +54,14 @@
                     </ul>
                 </li>
             @endcan
-            @can('asset_access')
+            @can('item_access')
                 <li class="nav-item">
-                    <a href="{{ route("admin.assets.index") }}" class="nav-link {{ request()->is('admin/assets') || request()->is('admin/assets/*') ? 'active' : '' }}">
+                    <a href="{{ route("admin.items.index") }}" class="nav-link {{ request()->is('admin/items') || request()->is('admin/items/*') ? 'active' : '' }}">
                         <i class="fa-fw fas fa-cogs nav-icon">
 
                         </i>
-                        {{ trans('cruds.asset.title') }}
+                        Add Item
+                        {{-- {{ trans('cruds.asset.title') }} --}}
                     </a>
                 </li>
             @endcan
@@ -83,7 +84,7 @@
                 </a>
             </li>
         @endcan
-            @can('stock_access')
+            {{-- @can('stock_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.stocks.index") }}" class="nav-link {{ request()->is('admin/stocks') || request()->is('admin/stocks/*') ? 'active' : '' }}">
                         <i class="fa-fw fas fa-cogs nav-icon">
@@ -92,7 +93,7 @@
                         {{ trans('cruds.stock.title') }}
                     </a>
                 </li>
-            @endcan
+            @endcan --}}
             @can('transaction_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.transactions.index") }}" class="nav-link {{ request()->is('admin/transactions') || request()->is('admin/transactions/*') ? 'active' : '' }}">

@@ -74,23 +74,23 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => '17',
-                'title' => 'asset_create',
+                'title' => 'item_create',
             ],
             [
                 'id'    => '18',
-                'title' => 'asset_edit',
+                'title' => 'item_edit',
             ],
             [
                 'id'    => '19',
-                'title' => 'asset_show',
+                'title' => 'item_show',
             ],
             [
                 'id'    => '20',
-                'title' => 'asset_delete',
+                'title' => 'item_delete',
             ],
             [
                 'id'    => '21',
-                'title' => 'asset_access',
+                'title' => 'item_access',
             ],
             [
                 'id'    => '22',

@@ -3,13 +3,13 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.asset.title') }}
+        {{ trans('global.show') }} {{ trans('cruds.item.title') }}
     </div>
 
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.assets.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.items.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -17,40 +17,48 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.asset.fields.id') }}
+                            {{ trans('cruds.item.fields.id') }}
                         </th>
                         <td>
-                            {{ $asset->id }}
+                            {{ $item->id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.asset.fields.name') }}
+                            Item {{ trans('cruds.item.fields.name') }}
                         </th>
                         <td>
-                            {{ $asset->name }}
+                            {{ $item->name }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.asset.fields.description') }}
+                            Supplier Name
                         </th>
                         <td>
-                            {{ $asset->description }}
+                            {{ $item->supplier_name }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            Danger level
+                            Quantity
                         </th>
                         <td>
-                            {{ $asset->danger_level }}
+                            {{ $item->quantity }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Age of Expiry in Months
+                        </th>
+                        <td>
+                            {{ $item->ageing_in_days }}
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.assets.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.items.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>

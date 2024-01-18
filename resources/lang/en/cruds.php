@@ -67,7 +67,7 @@ return [
             'team_helper'              => '',
         ],
     ],
-    'asset'         => [
+    'item'         => [
         'title'          => 'Items',
         'title_singular' => 'Item',
         'fields'         => [
