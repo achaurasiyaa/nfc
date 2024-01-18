@@ -17,11 +17,11 @@ class AssetsTableSeeder extends Seeder
     public function run(): void
     {
         $assets = [
-            'gloves',
+            'Shoes',
             'masks',
-            'respirators',
-            'protective overalls',
-            'protective glasses',
+            'Safety Goggles            ',
+            'safety shoes            ',
+            'Jackets',
         ];
 
         foreach ($assets as $asset) {

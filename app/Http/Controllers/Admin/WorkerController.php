@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateWorkerRequest;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 
@@ -91,4 +92,124 @@ class WorkerController extends Controller
     {
         return view('workers.create');
     }
+    public function Vimport(array $row)
+    {
+        return new Worker([
+            'name' => $row[0],
+            'email' => $row[1],
+            // Add other fields as needed
+        ]);
+    }
+    
+    public function CbulkUpload(Request $request)
+    {
+        // dd($request);
+        // $request->validate([
+        //     'csv_file' => 'required|file|mimes:csv,txt',
+        // ]);
+
+        try {
+            // $import = new WorkersImport();
+            
+            Excel::import($this->Vimport($request->file('csv_file')) );
+
+            return back()->with('success', 'Bulk upload successful!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error uploading CSV file: ' . $e->getMessage());
+        }
+    }
+
+    public function DbulkUpload(StoreWorkerRequest $request)
+    {
+        // $validator = Validator::make($request->all(), [
+        //     'csv_file' => 'required|file|mimes:csv,txt',
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return back()->withErrors($validator)->withInput();
+        // }
+        // dd('ss');
+        try {
+            $file = $request->file('csv_file');
+            // dd($file);
+            $handle = fopen($file->getRealPath(), "r");
+            // dd($request);
+            // Skip the header row if it exists
+            $header = fgetcsv($handle, 1000, ",");
+
+            $workers = [];
+
+            while (($row = fgetcsv($handle, 1000, ",")) !== false) {
+                // Add each worker to the array
+                $workers[] = [
+                    'name' => $row[0],
+                    'email' => $row[1],
+                    'gate_pass_number' => $row[2], // Adjust column indices based on your CSV
+                    'vendor_id' => $row[3], // Adjust column indices based on your CSV
+                    // Add other fields as needed
+                ];
+            }
+
+            fclose($handle);
+            dd($workers);
+            // Insert workers in a single batch
+            Worker::insert($workers);
+
+            return back()->with('success', 'Bulk upload successful!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error uploading CSV file: ' . $e->getMessage());
+        }
+    }
+
+
+    // public function bulkUpload(Request $request)
+    // {
+    //     $file = $request->file('file');
+    //     $fileContents = file($file->getPathname());
+
+    //     foreach ($fileContents as $line) {
+    //         $data = str_getcsv($line);
+
+    //         Worker::create([
+    //             'name' => $data[0],
+    //             'gate_pass_number' => $data[1],
+    //             'vendor_id' => $data[2],
+    //             // Add more fields as needed
+    //         ]);
+    //     }
+
+    //     return redirect()->back()->with('success', 'CSV file imported successfully.');
+    // }
+    public function bulkUpload(Request $request)
+{
+    // Check if a file is present in the request
+    if ($request->hasFile('file')) {
+        $file = $request->file('file');
+        
+        // Check if the file is valid
+        if ($file->isValid()) {
+            $fileContents = file($file->getPathname());
+
+            foreach ($fileContents as $line) {
+                $data = str_getcsv($line);
+dd($data);
+                Worker::create([
+                    'name' => $data[0],
+                    'gate_pass_number' => $data[1],
+                    'vendor_id' => $data[2],
+                    // Add more fields as needed
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'CSV file imported successfully.');
+        } else {
+            // Handle invalid file
+            return redirect()->back()->with('error', 'Invalid file uploaded.');
+        }
+    } else {
+        // Handle case when no file is uploaded
+        return redirect()->back()->with('error', 'No file uploaded.');
+    }
+}
+
 }

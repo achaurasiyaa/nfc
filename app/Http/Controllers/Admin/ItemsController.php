@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Item;
 use App\Worker;
+use App\Asset;
 
 class ItemsController extends Controller
 {

@@ -37,6 +37,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
      // Worker
      Route::delete('worker/destroy', 'WorkerController@massDestroy')->name('worker.massDestroy');
      Route::resource('worker', 'WorkerController');
+     Route::post('worker/bulk_upload', 'WorkerController@bulkUpload')->name('worker.bulkUpload');
 
     // Teams
     Route::delete('teams/destroy', 'TeamController@massDestroy')->name('teams.massDestroy');
