@@ -77,3 +77,6 @@ Route::get('/nfc/{nfc_serial_number}', 'NfcController@show')->name('nfc.show');
 Route::post('/nfc/{nfc_serial_number}', 'NfcController@assignToWorker')->name('nfc.assignToWorker');
 Route::get('assign_worker/workers', [AssignWorkerController::class, 'getWorkers'])->name('admin.workers.getWorkers');
 Route::post('assign_worker/assignItem/{nfc_serial_number}', [AssignWorkerController::class, 'assignItem'])->name('admin.assign_worker.assignItem');
+// routes/web.php
+
+Route::get('workers/details-by-gate-pass-number', [AssignWorkerController::class,'getWorkerDetailsByGatePassNumber'])->name('admin.workers.getWorkerDetailsByGatePassNumber');

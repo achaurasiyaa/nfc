@@ -133,9 +133,29 @@ class AssignWorkerController extends Controller
     }
     public function getWorkers()
     {
-        dd('jjjjj');
+        // dd('jjjjj');
         $workers = Worker::all();
         dd($workers);
         return response()->json($workers);
     }
+    public function getWorkerDetailsByGatePassNumber(Request $request)
+    {
+        // dd('2222');
+        // Validate the request
+        $request->validate([
+            'gate_pass_number' => 'required|string',
+        ]);
+// dd($request);
+        // Get worker details based on the gate pass number
+        $workerDetails = Worker::where('gate_pass_number', $request->input('gate_pass_number'))->first();
+
+        if (!$workerDetails) {
+            // Worker not found, return an error response
+            return response()->json(['error' => 'Worker not found'], 404);
+        }
+        return response()->json($workerDetails);
+        // Return the worker details as JSON response
+        // return response()->json(['worker' => $workerDetails]);
+    }
+    
 }

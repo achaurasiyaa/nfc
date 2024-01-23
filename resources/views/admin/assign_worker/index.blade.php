@@ -14,7 +14,9 @@
                             <th>ID</th>
                             <th>NFC Serial Number</th>
                             <th>Item Name</th>
+                            <th>Search Worker</th>
                             <th>Action</th>
+                            <th>ffff    </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -24,15 +26,12 @@
                                 <td>{{ $item->nfc_serial_number }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>
-                                    <form action="{{ route('admin.assign_worker.assignItem', $item->nfc_serial_number) }}" method="POST">
-                                        @csrf
-                                        
-                                        <select name="worker_id" id="worker_id" required>
-                                            
-                                        </select>
-                                        <button type="submit" class="btn btn-success">Assign to Worker</button>
-                                    </form>
-                                    
+                                    <input type="text" class="searchWorkerInput" data-item-id="{{ $item->item_id }}" placeholder="Enter Gate Pass Number">
+                                    <button class="searchWorkerBtn" data-item-id="{{ $item->item_id }}">Search</button>
+                                </td>
+                                <td class="selectedWorkerInfo" id="selectedWorkerInfo_{{ $item->item_id }}"></td>
+                                <td>
+                                    <button class="assignWorkerBtn" data-item-id="{{ $item->item_id }}" style="display:none;">Assign Worker</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -42,30 +41,30 @@
         </div>
     </div>
 @endsection
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-    // Add this script to handle Ajax and load workers dynamically
     $(document).ready(function () {
-        $('#assignForm').submit(function (e) {
-            e.preventDefault();
+        // On click event for search button
+        $('.searchWorkerBtn').on('click', function () {
+            var gatePassNumber = $(this).prev('.searchWorkerInput').val();
+            var itemId = $(this).data('item-id');
 
-            // Get selected NFC serial number
-            var nfcSerialNumber = "{{ $item->nfc_serial_number }}";
-
-            // Get selected worker ID
-            var workerId = $('#worker_id').val();
-
-            // Make Ajax request to assignItem route
+            // Make Ajax request to get worker details by gate pass number
             $.ajax({
-                type: 'POST',
-                url: "{{ route('admin.assign_worker.assignItem', $item->nfc_serial_number) }}",
+                type: 'GET',
+                url: "{{ route('admin.workers.getWorkerDetailsByGatePassNumber') }}",
                 data: {
-                    _token: "{{ csrf_token() }}",
-                    worker_id: workerId
+                    gate_pass_number: gatePassNumber
                 },
-                success: function (data) {
-                    // Handle success, you can redirect or perform other actions
-                    console.log(data);
+                success: function (workerDetails) {
+                    // Display worker details in the selectedWorkerInfo <td>
+                        console.log(itemId)
+                        console.log(workerDetails)
+                        console.log('Name:', workerDetails.name);
+console.log('Gate Pass Number:', workerDetails.gate_pass_number);
+
+                    $('#selectedWorkerInfo_' + itemId).text('Name: ' + workerDetails.name + ', Gate Pass Number: ' + workerDetails.gate_pass_number);
                 },
                 error: function (error) {
                     // Handle error
@@ -74,20 +73,7 @@
             });
         });
 
-        // Load workers dynamically on page load
-        $.ajax({
-            type: 'GET',
-            url: "{{ route('admin.workers.getWorkers') }}",
-            success: function (workers) {
-                // Populate the workers dropdown
-                workers.forEach(function (worker) {
-                    $('#worker_id').append('<option value="' + worker.id + '">' + worker.name + '</option>');
-                });
-            },
-            error: function (error) {
-                // Handle error
-                console.log(error);
-            }
-        });
+        // ... rest of your JavaScript code ...
+
     });
 </script>

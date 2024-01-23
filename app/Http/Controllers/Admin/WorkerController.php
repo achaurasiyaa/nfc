@@ -181,35 +181,55 @@ class WorkerController extends Controller
     //     return redirect()->back()->with('success', 'CSV file imported successfully.');
     // }
     public function bulkUpload(Request $request)
-{
-    // Check if a file is present in the request
-    if ($request->hasFile('file')) {
-        $file = $request->file('file');
-        
-        // Check if the file is valid
-        if ($file->isValid()) {
-            $fileContents = file($file->getPathname());
+    {
+        // Check if a file is present in the request
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            
+            // Check if the file is valid
+            if ($file->isValid()) {
+                $fileContents = file($file->getPathname());
 
-            foreach ($fileContents as $line) {
-                $data = str_getcsv($line);
-dd($data);
-                Worker::create([
-                    'name' => $data[0],
-                    'gate_pass_number' => $data[1],
-                    'vendor_id' => $data[2],
-                    // Add more fields as needed
-                ]);
+                foreach ($fileContents as $line) {
+                    $data = str_getcsv($line);
+        dd($data);
+                    Worker::create([
+                        'name' => $data[0],
+                        'gate_pass_number' => $data[1],
+                        'vendor_id' => $data[2],
+                        // Add more fields as needed
+                    ]);
+                }
+
+                return redirect()->back()->with('success', 'CSV file imported successfully.');
+            } else {
+                // Handle invalid file
+                return redirect()->back()->with('error', 'Invalid file uploaded.');
             }
-
-            return redirect()->back()->with('success', 'CSV file imported successfully.');
         } else {
-            // Handle invalid file
-            return redirect()->back()->with('error', 'Invalid file uploaded.');
+            // Handle case when no file is uploaded
+            return redirect()->back()->with('error', 'No file uploaded.');
         }
-    } else {
-        // Handle case when no file is uploaded
-        return redirect()->back()->with('error', 'No file uploaded.');
     }
-}
+
+    public function getWorkerDetailsByGatePassNumber(Request $request)
+    {
+        dd('1111111');
+        // Validate the request
+        $request->validate([
+            'gate_pass_number' => 'required|string',
+        ]);
+
+        // Get worker details based on the gate pass number
+        $workerDetails = Worker::where('gate_pass_number', $request->input('gate_pass_number'))->first();
+
+        if (!$workerDetails) {
+            // Worker not found, return an error response
+            return response()->json(['error' => 'Worker not found'], 404);
+        }
+
+        // Return the worker details as JSON response
+        return response()->json(['worker' => $workerDetails]);
+    }
 
 }
