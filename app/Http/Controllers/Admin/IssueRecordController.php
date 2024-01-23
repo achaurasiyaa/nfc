@@ -34,38 +34,38 @@ class IssueRecordController extends Controller
     //     return view('admin.issue_record.index', compact('issueRecord'));
     // }
     public function index()
-{
-    // Check for permission (assuming you are using Gates)
-    abort_if(Gate::denies('issue_record_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+    {
+        // Check for permission (assuming you are using Gates)
+        abort_if(Gate::denies('issue_record_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-    // Fetch all issue records with related data
-    $issueRecords = IssueRecord::with(['worker.vendor', 'nfcTag.item'])->get();
+        // Fetch all issue records with related data
+        $issueRecords = IssueRecord::with(['worker.vendor', 'nfcTag.item'])->get();
 
-    // You can use the following loop to access related data
-    foreach ($issueRecords as $issueRecord) {
-        // Access related data
-        $workerName = $issueRecord->worker->name;
-        $vendorName = $issueRecord->worker->vendor->name;
-        $nfcTagId = $issueRecord->nfcTag->nfc_serial_number;
-        $itemName = $issueRecord->nfcTag->item->name;
+        // You can use the following loop to access related data
+        foreach ($issueRecords as $issueRecord) {
+            // Access related data
+            $workerName = $issueRecord->worker->name;
+            $vendorName = $issueRecord->worker->vendor->name;
+            $nfcTagId = $issueRecord->nfcTag->nfc_serial_number;
+            $itemName = $issueRecord->nfcTag->item->name;
 
-        // Do something with the data (e.g., create a new structure to pass to the view)
-        $formattedIssueRecords[] = [
-            'worker_name' => $workerName,
-            'vendor_name' => $vendorName,
-            'nfc_tag_id' => $nfcTagId,
-            'item_name' => $itemName,
-            'issue_date' => $issueRecord->issue_date,
-            'is_expired' => $issueRecord->is_expired,
-            'expire_date' => $issueRecord->expire_date,
-            // Add other fields as needed
-        ];
+            // Do something with the data (e.g., create a new structure to pass to the view)
+            $formattedIssueRecords[] = [
+                'worker_name' => $workerName,
+                'vendor_name' => $vendorName,
+                'nfc_tag_id' => $nfcTagId,
+                'item_name' => $itemName,
+                'issue_date' => $issueRecord->issue_date,
+                'is_expired' => $issueRecord->is_expired,
+                'expire_date' => $issueRecord->expire_date,
+                // Add other fields as needed
+            ];
+        }
+
+        // dd($formattedIssueRecords); // Uncomment for debugging
+
+        return view('admin.issue_record.index', compact('formattedIssueRecords'));
     }
-
-    // dd($formattedIssueRecords); // Uncomment for debugging
-
-    return view('admin.issue_record.index', compact('formattedIssueRecords'));
-}
 
     public function create()
     {

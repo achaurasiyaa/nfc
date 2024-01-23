@@ -37,7 +37,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
      // Issue Record
      Route::delete('issue_record/destroy', 'IssueRecordController@massDestroy')->name('issue_record.massDestroy');
      Route::resource('issue_record', 'IssueRecordController');
+ 
+     // Assign Worker
+     Route::delete('assign_worker/destroy', 'AssignWorkerController@massDestroy')->name('assign_worker.massDestroy');
+     Route::resource('assign_worker', 'AssignWorkerController');
+    //  Route::get('assign_worker/assignWorker', 'AssignWorkerController@assignWorker')->name('admin.assign_worker.assignWorker');
 
+    //  assign_worker_access
      // Worker
      Route::delete('worker/destroy', 'WorkerController@massDestroy')->name('worker.massDestroy');
      Route::resource('worker', 'WorkerController');

@@ -63,7 +63,7 @@ class NfcController extends Controller
       $issueRecord = IssueRecord::where('nfc_tag_id', $nfcItem->id)->first();
     //   $user = auth()->user();
     //   if ($user) {
-    //     // dd('l');
+    //  dd('l');
     //     return view('nfc.show', [
     //         'nfcItem' => $nfcItem,
     //         'worker' => $worker,

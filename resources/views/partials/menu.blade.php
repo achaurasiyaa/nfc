@@ -94,6 +94,16 @@
                 </a>
             </li>
         @endcan
+        @can('issue_record_access')
+            <li class="nav-item">
+                <a href="{{ route("admin.assign_worker.index") }}" class="nav-link {{ request()->is('admin/assign_worker') || request()->is('admin/assign_worker/*') ? 'active' : '' }}">
+                    <i class="fa-fw fas fa-cogs nav-icon">
+
+                    </i>
+                    Assign Worker
+                </a>
+            </li>
+        @endcan
             {{-- @can('stock_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.stocks.index") }}" class="nav-link {{ request()->is('admin/stocks') || request()->is('admin/stocks/*') ? 'active' : '' }}">
@@ -104,7 +114,7 @@
                     </a>
                 </li>
             @endcan --}}
-            @can('transaction_access')
+            {{-- @can('transaction_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.transactions.index") }}" class="nav-link {{ request()->is('admin/transactions') || request()->is('admin/transactions/*') ? 'active' : '' }}">
                         <i class="fa-fw fas fa-cogs nav-icon">
@@ -113,7 +123,7 @@
                         {{ trans('cruds.transaction.title') }}
                     </a>
                 </li>
-            @endcan
+            @endcan --}}
             @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                 @can('profile_password_edit')
                     <li class="nav-item">
