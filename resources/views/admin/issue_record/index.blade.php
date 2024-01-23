@@ -5,7 +5,7 @@
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route("admin.issue_record.create") }}">
-                bbbb
+                Issued Record
             </a>
         </div>
     </div>
