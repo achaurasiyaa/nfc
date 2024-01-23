@@ -26,4 +26,9 @@ class Item extends Model
         'created_at',
         'updated_at'
     ];
+    public function nfcTags()
+{
+    return $this->hasMany(ItemNfcRel::class);
+}
+
 }

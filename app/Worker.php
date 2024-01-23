@@ -30,4 +30,8 @@ class Worker extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id');
+    }
 }

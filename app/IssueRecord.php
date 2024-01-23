@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Worker;
+use App\ItemNfcRel;
 
 class IssueRecord extends Model
 {

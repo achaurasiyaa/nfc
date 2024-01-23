@@ -84,6 +84,16 @@
                 </a>
             </li>
         @endcan
+        @can('issue_record_access')
+            <li class="nav-item">
+                <a href="{{ route("admin.issue_record.index") }}" class="nav-link {{ request()->is('admin/issue_record') || request()->is('admin/issue_record/*') ? 'active' : '' }}">
+                    <i class="fa-fw fas fa-cogs nav-icon">
+
+                    </i>
+                    Issue Record
+                </a>
+            </li>
+        @endcan
             {{-- @can('stock_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.stocks.index") }}" class="nav-link {{ request()->is('admin/stocks') || request()->is('admin/stocks/*') ? 'active' : '' }}">

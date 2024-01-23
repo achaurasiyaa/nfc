@@ -29,7 +29,10 @@ class Vendor extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
-
+    public function workers()
+    {
+        return $this->hasMany(Worker::class);
+    }
     // public function transactions()
     // {
     //     return $this->hasMany(Transaction::class, 'asset_id');

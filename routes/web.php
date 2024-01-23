@@ -34,6 +34,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
      Route::delete('vendor/destroy', 'VendorController@massDestroy')->name('vendor.massDestroy');
      Route::resource('vendor', 'VendorController');
 
+     // Issue Record
+     Route::delete('issue_record/destroy', 'IssueRecordController@massDestroy')->name('issue_record.massDestroy');
+     Route::resource('issue_record', 'IssueRecordController');
+
      // Worker
      Route::delete('worker/destroy', 'WorkerController@massDestroy')->name('worker.massDestroy');
      Route::resource('worker', 'WorkerController');
@@ -63,3 +67,5 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 });
 
 Route::get('/nfc/{nfc_serial_number}', 'NfcController@show')->name('nfc.show');
+
+Route::post('/nfc/{nfc_serial_number}', 'NfcController@assignToWorker')->name('nfc.assignToWorker');
