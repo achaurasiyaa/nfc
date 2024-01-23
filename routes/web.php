@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\Admin\AssignWorkerController;
 Route::redirect('/', '/login');
 Route::get('/home', function () {
     if (session('status')) {
@@ -42,7 +42,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
      Route::delete('assign_worker/destroy', 'AssignWorkerController@massDestroy')->name('assign_worker.massDestroy');
      Route::resource('assign_worker', 'AssignWorkerController');
     //  Route::get('assign_worker/assignWorker', 'AssignWorkerController@assignWorker')->name('admin.assign_worker.assignWorker');
-
+   
     //  assign_worker_access
      // Worker
      Route::delete('worker/destroy', 'WorkerController@massDestroy')->name('worker.massDestroy');
@@ -75,3 +75,5 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 Route::get('/nfc/{nfc_serial_number}', 'NfcController@show')->name('nfc.show');
 
 Route::post('/nfc/{nfc_serial_number}', 'NfcController@assignToWorker')->name('nfc.assignToWorker');
+Route::get('assign_worker/workers', [AssignWorkerController::class, 'getWorkers'])->name('admin.workers.getWorkers');
+Route::post('assign_worker/assignItem/{nfc_serial_number}', [AssignWorkerController::class, 'assignItem'])->name('admin.assign_worker.assignItem');

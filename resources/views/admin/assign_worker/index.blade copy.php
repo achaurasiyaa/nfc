@@ -14,7 +14,7 @@
                             <th>ID</th>
                             <th>NFC Serial Number</th>
                             <th>Item Name</th>
-                            <th>Action</th>
+                            {{-- <th>Action</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -33,6 +33,10 @@
                                         <button type="submit" class="btn btn-success">Assign to Worker</button>
                                     </form>
                                     
+                                    {{-- <form action="{{ route('admin.assign_worker.assignItem', $item->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success">Assign to Worker</button>
+                                    </form> --}}
                                 </td>
                             </tr>
                         @endforeach
@@ -42,6 +46,7 @@
         </div>
     </div>
 @endsection
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     // Add this script to handle Ajax and load workers dynamically
@@ -55,39 +60,23 @@
             // Get selected worker ID
             var workerId = $('#worker_id').val();
 
-            // Make Ajax request to assignItem route
+            
+        });
+
+    
             $.ajax({
-                type: 'POST',
-                url: "{{ route('admin.assign_worker.assignItem', $item->nfc_serial_number) }}",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    worker_id: workerId
-                },
-                success: function (data) {
-                    // Handle success, you can redirect or perform other actions
-                    console.log(data);
+                type: 'GET',
+                url: "{{ route('admin.workers.getWorkers') }}", // Use the updated route
+                success: function (workers) {
+                    // Populate the workers dropdown
+                    workers.forEach(function (worker) {
+                        $('#worker_id').append('<option value="' + worker.id + '">' + worker.name + '</option>');
+                    });
                 },
                 error: function (error) {
                     // Handle error
                     console.log(error);
                 }
             });
-        });
-
-        // Load workers dynamically on page load
-        $.ajax({
-            type: 'GET',
-            url: "{{ route('admin.workers.getWorkers') }}",
-            success: function (workers) {
-                // Populate the workers dropdown
-                workers.forEach(function (worker) {
-                    $('#worker_id').append('<option value="' + worker.id + '">' + worker.name + '</option>');
-                });
-            },
-            error: function (error) {
-                // Handle error
-                console.log(error);
-            }
-        });
     });
 </script>
