@@ -196,6 +196,30 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => '47',
                 'title' => 'worker_delete',
             ],
+            [
+                'id'    => '48',
+                'title' => 'issue_record_access',
+            ],
+            [
+                'id'    => '49',
+                'title' => 'issue_record_create',
+            ],
+            [
+                'id'    => '50',
+                'title' => 'issue_record_edit',
+            ],
+            [
+                'id'    => '51',
+                'title' => 'issue_record_show',
+            ],
+            [
+                'id'    => '52',
+                'title' => 'issue_record_delete',
+            ],
+            [
+                'id'    => '53',
+                'title' => 'assign_worker_access',
+            ],
         ];
 
         Permission::insert($permissions);
