@@ -16,15 +16,19 @@
 @endcan --}}
 @can('worker_create')
     <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <a class="btn btn-success" href="{{ route("admin.worker.create") }}">
                Worker Add
             </a>
         </div>
-        <div class="col-lg-6">
-            <!-- Add a button to trigger bulk worker upload modal -->
+        <div class="col-lg-4">
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#bulkUploadModal">
                Bulk Worker Add
+            </button>
+        </div>
+        <div class="col-lg-4">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#downloadCsvTemplate">
+                Download Csv Template
             </button>
         </div>
     </div>
@@ -133,6 +137,26 @@
                     <button type="submit" class="btn btn-primary">Upload</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="downloadCsvTemplate" tabindex="-1" role="dialog" aria-labelledby="downloadCsvTemplateLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="downloadCsvTemplateLabel">Download CSV Template</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Click the button below to download the CSV template:</p>
+                <a href="{{ route('admin.download.csv.template') }}" class="btn btn-primary">Download CSV Template</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

@@ -48,6 +48,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
      Route::delete('worker/destroy', 'WorkerController@massDestroy')->name('worker.massDestroy');
      Route::resource('worker', 'WorkerController');
      Route::post('worker/bulk_upload', 'WorkerController@bulkUpload')->name('worker.bulkUpload');
+     Route::get('/download-csv-template', 'WorkerController@downloadCsvTemplate')->name('download.csv.template');
 
     // Teams
     Route::delete('teams/destroy', 'TeamController@massDestroy')->name('teams.massDestroy');

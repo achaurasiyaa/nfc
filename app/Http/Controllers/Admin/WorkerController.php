@@ -114,6 +114,55 @@ class WorkerController extends Controller
         return response()->json(['worker' => $workerDetails]);
     }
   
+    // public function bulkUpload(Request $request)
+    // {
+    //     // Check if a file is present in the request
+    //     if ($request->hasFile('file')) {
+    //         $file = $request->file('file');
+    //         if ($file->isValid()) {
+    //             $fileContents = file($file->getPathname());
+
+    //             // Extract headers from the first line
+    //             $headers = str_getcsv(array_shift($fileContents));
+
+    //             foreach ($fileContents as $line) {
+    //                 $data = str_getcsv($line);
+    //                 if (count($headers) !== count($data)) {
+    //                     dd("Mismatch in row : Headers count does not match data count");
+    //                 }
+    //                 $rowData = array_combine($headers, $data);
+                    
+    //                 $existingRecord = Worker::where('gate_pass_number', $rowData['gate_pass_number'])->exists();;
+    //                 $vendorIdExists = Vendor::where('id', $rowData['vendor_id'])->exists();
+
+    //                 if (!$existingRecord && $vendorIdExists) {
+    //                     Worker::create([
+    //                         'name' => $rowData['name'],
+    //                         'gate_pass_number' => $rowData['gate_pass_number'],
+    //                         'mobile' => $rowData['mobile'],
+    //                         'vendor_id' => $rowData['vendor_id'],
+                            
+    //                         // Add more fields as needed
+    //                     ]);
+    //                 } else {
+    //                     // Skip the record as gate_pass_number is already registered
+    //                     // You can log or handle this case as needed
+    //                     continue;
+    //                 }
+    //             }
+
+    //             return redirect()->back()->with('success', 'File imported successfully.');
+    //         } else {
+    //             // Handle invalid file
+    //             return redirect()->back()->with('error', 'Invalid file uploaded.');
+    //         }
+    //     } else {
+    //         // Handle case when no file is uploaded
+    //         dd('No file uploaded.'); // Add a helpful message for debugging
+    //         return redirect()->back()->with('error', 'No file uploaded.');
+    //     }
+    // }
+
     public function bulkUpload(Request $request)
     {
         // Check if a file is present in the request
@@ -125,14 +174,16 @@ class WorkerController extends Controller
                 // Extract headers from the first line
                 $headers = str_getcsv(array_shift($fileContents));
 
+                $existingRecordsToDownload = [];
+
                 foreach ($fileContents as $line) {
                     $data = str_getcsv($line);
                     if (count($headers) !== count($data)) {
                         dd("Mismatch in row : Headers count does not match data count");
                     }
                     $rowData = array_combine($headers, $data);
-                    
-                    $existingRecord = Worker::where('gate_pass_number', $rowData['gate_pass_number'])->exists();;
+
+                    $existingRecord = Worker::where('gate_pass_number', $rowData['gate_pass_number'])->exists();
                     $vendorIdExists = Vendor::where('id', $rowData['vendor_id'])->exists();
 
                     if (!$existingRecord && $vendorIdExists) {
@@ -141,17 +192,29 @@ class WorkerController extends Controller
                             'gate_pass_number' => $rowData['gate_pass_number'],
                             'mobile' => $rowData['mobile'],
                             'vendor_id' => $rowData['vendor_id'],
-                            
                             // Add more fields as needed
                         ]);
                     } else {
-                        // Skip the record as gate_pass_number is already registered
-                        // You can log or handle this case as needed
-                        continue;
+                        // Record exists, add it to the list for download
+                        $existingRecordsToDownload[] = $rowData;
                     }
                 }
 
-                return redirect()->back()->with('success', 'File imported successfully.');
+                // Create a CSV file with existing records
+                $csvFileName = 'faield_report.csv';
+                $csvFilePath = storage_path('app/' . $csvFileName);
+
+                $file = fopen($csvFilePath, 'w');
+                fputcsv($file, $headers); // Write headers
+
+                foreach ($existingRecordsToDownload as $record) {
+                    fputcsv($file, $record);
+                }
+
+                fclose($file);
+
+                // Provide a link to download the CSV file
+                return response()->download($csvFilePath)->deleteFileAfterSend(true);
             } else {
                 // Handle invalid file
                 return redirect()->back()->with('error', 'Invalid file uploaded.');
@@ -161,6 +224,21 @@ class WorkerController extends Controller
             dd('No file uploaded.'); // Add a helpful message for debugging
             return redirect()->back()->with('error', 'No file uploaded.');
         }
+    }
+    public function downloadCsvTemplate()
+    {
+        $headers = ['name', 'gate_pass_number', 'mobile', 'vendor_id']; // Add more headers as needed
+
+        // Create a CSV file with headers only
+        $csvFileName = 'csv_template.csv';
+        $csvFilePath = storage_path('app/' . $csvFileName);
+
+        $file = fopen($csvFilePath, 'w');
+        fputcsv($file, $headers);
+        fclose($file);
+
+        // Provide a link to download the CSV file
+        return response()->download($csvFilePath)->deleteFileAfterSend(true);
     }
 
 }
