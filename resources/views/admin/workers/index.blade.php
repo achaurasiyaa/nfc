@@ -125,7 +125,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="csv_file">CSV File:</label>
-                        <input type="file" name="csv_file" accept=".csv" class="form-control" required>
+                        <input type="file" name="file" accept=".csv" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">

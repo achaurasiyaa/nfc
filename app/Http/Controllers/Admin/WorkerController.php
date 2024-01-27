@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Worker;
+use App\Vendor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyWorkerRequest;
 use App\Http\Requests\StoreWorkerRequest;
@@ -92,126 +93,7 @@ class WorkerController extends Controller
     {
         return view('workers.create');
     }
-    public function Vimport(array $row)
-    {
-        return new Worker([
-            'name' => $row[0],
-            'email' => $row[1],
-            // Add other fields as needed
-        ]);
-    }
     
-    public function CbulkUpload(Request $request)
-    {
-        // dd($request);
-        // $request->validate([
-        //     'csv_file' => 'required|file|mimes:csv,txt',
-        // ]);
-
-        try {
-            // $import = new WorkersImport();
-            
-            Excel::import($this->Vimport($request->file('csv_file')) );
-
-            return back()->with('success', 'Bulk upload successful!');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Error uploading CSV file: ' . $e->getMessage());
-        }
-    }
-
-    public function DbulkUpload(StoreWorkerRequest $request)
-    {
-        // $validator = Validator::make($request->all(), [
-        //     'csv_file' => 'required|file|mimes:csv,txt',
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return back()->withErrors($validator)->withInput();
-        // }
-        // dd('ss');
-        try {
-            $file = $request->file('csv_file');
-            // dd($file);
-            $handle = fopen($file->getRealPath(), "r");
-            // dd($request);
-            // Skip the header row if it exists
-            $header = fgetcsv($handle, 1000, ",");
-
-            $workers = [];
-
-            while (($row = fgetcsv($handle, 1000, ",")) !== false) {
-                // Add each worker to the array
-                $workers[] = [
-                    'name' => $row[0],
-                    'email' => $row[1],
-                    'gate_pass_number' => $row[2], // Adjust column indices based on your CSV
-                    'vendor_id' => $row[3], // Adjust column indices based on your CSV
-                    // Add other fields as needed
-                ];
-            }
-
-            fclose($handle);
-            dd($workers);
-            // Insert workers in a single batch
-            Worker::insert($workers);
-
-            return back()->with('success', 'Bulk upload successful!');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Error uploading CSV file: ' . $e->getMessage());
-        }
-    }
-
-
-    // public function bulkUpload(Request $request)
-    // {
-    //     $file = $request->file('file');
-    //     $fileContents = file($file->getPathname());
-
-    //     foreach ($fileContents as $line) {
-    //         $data = str_getcsv($line);
-
-    //         Worker::create([
-    //             'name' => $data[0],
-    //             'gate_pass_number' => $data[1],
-    //             'vendor_id' => $data[2],
-    //             // Add more fields as needed
-    //         ]);
-    //     }
-
-    //     return redirect()->back()->with('success', 'CSV file imported successfully.');
-    // }
-    public function bulkUpload(Request $request)
-    {
-        // Check if a file is present in the request
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            
-            // Check if the file is valid
-            if ($file->isValid()) {
-                $fileContents = file($file->getPathname());
-
-                foreach ($fileContents as $line) {
-                    $data = str_getcsv($line);
-        dd($data);
-                    Worker::create([
-                        'name' => $data[0],
-                        'gate_pass_number' => $data[1],
-                        'vendor_id' => $data[2],
-                        // Add more fields as needed
-                    ]);
-                }
-
-                return redirect()->back()->with('success', 'CSV file imported successfully.');
-            } else {
-                // Handle invalid file
-                return redirect()->back()->with('error', 'Invalid file uploaded.');
-            }
-        } else {
-            // Handle case when no file is uploaded
-            return redirect()->back()->with('error', 'No file uploaded.');
-        }
-    }
-
     public function getWorkerDetailsByGatePassNumber(Request $request)
     {
         dd('1111111');
@@ -230,6 +112,55 @@ class WorkerController extends Controller
 
         // Return the worker details as JSON response
         return response()->json(['worker' => $workerDetails]);
+    }
+  
+    public function bulkUpload(Request $request)
+    {
+        // Check if a file is present in the request
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            if ($file->isValid()) {
+                $fileContents = file($file->getPathname());
+
+                // Extract headers from the first line
+                $headers = str_getcsv(array_shift($fileContents));
+
+                foreach ($fileContents as $line) {
+                    $data = str_getcsv($line);
+                    if (count($headers) !== count($data)) {
+                        dd("Mismatch in row : Headers count does not match data count");
+                    }
+                    $rowData = array_combine($headers, $data);
+                    
+                    $existingRecord = Worker::where('gate_pass_number', $rowData['gate_pass_number'])->exists();;
+                    $vendorIdExists = Vendor::where('id', $rowData['vendor_id'])->exists();
+
+                    if (!$existingRecord && $vendorIdExists) {
+                        Worker::create([
+                            'name' => $rowData['name'],
+                            'gate_pass_number' => $rowData['gate_pass_number'],
+                            'mobile' => $rowData['mobile'],
+                            'vendor_id' => $rowData['vendor_id'],
+                            
+                            // Add more fields as needed
+                        ]);
+                    } else {
+                        // Skip the record as gate_pass_number is already registered
+                        // You can log or handle this case as needed
+                        continue;
+                    }
+                }
+
+                return redirect()->back()->with('success', 'File imported successfully.');
+            } else {
+                // Handle invalid file
+                return redirect()->back()->with('error', 'Invalid file uploaded.');
+            }
+        } else {
+            // Handle case when no file is uploaded
+            dd('No file uploaded.'); // Add a helpful message for debugging
+            return redirect()->back()->with('error', 'No file uploaded.');
+        }
     }
 
 }

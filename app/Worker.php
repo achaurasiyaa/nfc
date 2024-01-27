@@ -23,6 +23,7 @@ class Worker extends Model
         'name',
         'vendor_id',
         'gate_pass_number',
+        'mobile',
         
     ];
 

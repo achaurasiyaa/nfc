@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('gate_pass_number');
+            $table->string('mobile');
             $table->foreignId('vendor_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
