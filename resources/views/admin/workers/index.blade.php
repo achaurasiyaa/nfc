@@ -14,6 +14,7 @@
         </div>
     </div>
 @endcan --}}
+
 @can('worker_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-4">
@@ -33,6 +34,23 @@
         </div>
     </div>
 @endcan
+<div class="row mb-3">
+    <div class="col-lg-8">
+        <form action="{{ route('admin.worker.index') }}" method="get" class="form-inline">
+            <div class="form-group">
+                <input type="text" name="search" class="form-control" placeholder="Search by name or gate pass number">
+            </div>
+            <button type="submit" class="btn btn-primary ml-2">Search</button>
+            <a href="{{ route('admin.worker.index') }}" class="btn btn-secondary ml-2">Clear</a>
+        </form>
+    </div>
+    <div class="col-lg-4">
+        <!-- Add a button to trigger bulk worker upload modal -->
+        {{-- <button type="button" class="btn btn-success" data-toggle="modal" data-target="#bulkUploadModal">
+            Bulk Worker Add
+        </button> --}}
+    </div>
+</div>
 <div class="card">
     <div class="card-header">
         Worker
@@ -112,6 +130,13 @@
                 </tbody>
             </table>
         </div>
+                        <!-- Add pagination links and current page number -->
+                        <div class="d-flex justify-content-center">
+                            {{ $workers->links('pagination::bootstrap-4') }}
+                        </div>
+                <p class="text-center">Displaying workers on page {{ $workers->currentPage() }}</p>
+                
+
     </div>
 </div>
 

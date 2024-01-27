@@ -17,12 +17,22 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class WorkerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
 
         abort_if(Gate::denies('worker_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $query = Worker::query();
 
-        $workers = Worker::all();
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where('name', 'like', '%' . $searchTerm . '%')
+                ->orWhere('gate_pass_number', 'like', '%' . $searchTerm . '%');
+        }
+
+        $workers = $query->paginate(20);
+        // $workers = Worker::paginate(10);
+
+        // $workers = Worker::all();
 
         return view('admin.workers.index', compact('workers'));
     }
