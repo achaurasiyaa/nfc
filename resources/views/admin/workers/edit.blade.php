@@ -3,7 +3,7 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.edit') }} {{ trans('cruds.asset.title_singular') }}
+        Worker Edit
     </div>
 
     <div class="card-body">
@@ -11,18 +11,18 @@
             @method('PUT')
             @csrf
             <div class="form-group">
-                <label class="required" for="name">{{ trans('cruds.asset.fields.name') }}</label>
+                <label class="required" for="name">Worker Name</label>
                 <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $worker->name) }}" required>
                 @if($errors->has('name'))
                     <div class="invalid-feedback">
                         {{ $errors->first('name') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.asset.fields.name_helper') }}</span>
+                <span class="help-block">Worker Name</span>
             </div>
 
             <div class="form-group">
-                <label for="gate_pass_number">gate pass number</label>
+                <label for="gate_pass_number">Gate Pass Number</label>
                 <input class="form-control {{ $errors->has('gate_pass_number') ? 'is-invalid' : '' }}" type="number" name="gate_pass_number" id="gate_pass_number" value="{{ old('gate_pass_number', $worker->gate_pass_number ) }}" required>
                 @if($errors->has('gate_pass_number'))
                     <div class="invalid-feedback">
