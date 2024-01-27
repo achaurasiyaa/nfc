@@ -19,54 +19,27 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.vendor.fields.name_helper') }}</span>
             </div>
-            {{-- <div class="form-group">
-                <label class="required" for="contact">contact</label>
-                <input class="form-control {{ $errors->has('contact') ? 'is-invalid' : '' }}" type="text" name="contact" id="contact" value="{{ old('contact', '') }}" required>
-                @if($errors->has('contact'))
+            <div class="form-group">
+                <label class="required" for="vendor_code">Vendor Code</label>
+                <input class="form-control {{ $errors->has('vendor_code') ? 'is-invalid' : '' }}" type="text" name="vendor_code" id="vendor_code" value="{{ old('vendor_code', '') }}" required>
+                @if($errors->has('vendor_code'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('contact') }}
+                        {{ $errors->first('vendor_code') }}
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.vendor.fields.name_helper') }}</span>
-            </div> --}}
+            </div>
             <div class="form-group">
-                <label for="contact">Vendor contact</label>
-                <input class="form-control {{ $errors->has('contact') ? 'is-invalid' : '' }}" type="text" name="contact" id="contact" value="{{ old('contact', '') }}" required>
-                {{-- @if($errors->has('contact'))
+                <label class="required" for="email">Vendor Email</label>
+                <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email" id="email" value="{{ old('email', '') }}" required>
+                @if($errors->has('email'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('contact') }}
+                        {{ $errors->first('email') }}
                     </div>
-                @endif --}}
+                @endif
                 <span class="help-block"></span>
             </div>
-            {{-- <div class="form-group">
-                <label class="required" for="supplier_name">Supplier Name</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="supplier_name" id="supplier_name" value="{{ old('name', '') }}" required>
-                @if($errors->has('supplier_name'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('supplier_name') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.vendor.fields.name_helper') }}</span>
-            </div> --}}
-
-            {{-- <div class="form-group">
-                <label class="required" for="ageing_in_days">Expire Age</label>
-                <select class="form-control {{ $errors->has('ageing_in_days') ? 'is-invalid' : '' }}" name="ageing_in_days" id="ageing_in_days" required>
-                    <option value="" selected disabled>Select Age</option>
-
-                    @for ($month = 1; $month <= 12; $month++)
-                        <option value="{{ $month }}">{{ $month }} month{{ $month > 1 ? 's' : '' }}</option>
-                    @endfor
-                </select>
-
-                @if($errors->has('ageing_in_days'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('ageing_in_days') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.vendor.fields.name_helper') }}</span>
-            </div> --}}
+            
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}

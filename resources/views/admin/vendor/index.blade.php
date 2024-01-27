@@ -19,39 +19,23 @@
             <table class=" table table-bordered table-striped table-hover datatable datatable-Item">
                 <thead>
                     <tr>
-                        <th width="10">
-
-                        </th>
-                        <th>
-                            Id
-                        </th>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Vendor Contact
-                        </th>
-                       
-                        
-                        <th>
-                            Action
-                        </th>
+                        <th width="10"></th>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Vendor Code</th>
+                        <th>Vendor Email</th>
+                        <th>Action</th>
                     </tr>
-                </thead>
+                </thead>                
                 <tbody>
                     @foreach($vendors as $key => $item)
                         <tr data-entry-id="{{ $item->id }}">
                             <td>
-
                             </td>
-                            <td>
-                                {{ $item->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $item->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $item->contact ?? '' }}
+                                <td>{{ $item->id ?? '' }}</td>
+                                <td>{{ $item->name ?? '' }}</td>
+                                <td>{{ $item->vendor_code ?? '' }}</td>
+                                <td>{{ $item->email ?? '' }}
                             </td>
                             
                             

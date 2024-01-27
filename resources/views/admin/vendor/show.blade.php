@@ -16,36 +16,20 @@
             <table class="table table-bordered table-striped">
                 <tbody>
                     <tr>
-                        <th>
-                            {{ trans('cruds.vendor.fields.id') }}
-                        </th>
-                        <td>
-                            {{ $vendor->id }}
-                        </td>
+                        <th>{{ trans('cruds.vendor.fields.id') }}</th>
+                        <td>{{ $vendor->id }}</td>
                     </tr>
                     <tr>
-                        <th>
-                            {{ trans('cruds.vendor.fields.name') }}
-                        </th>
-                        <td>
-                            {{ $vendor->name }}
-                        </td>
+                        <th>{{ trans('cruds.vendor.fields.name') }}</th>
+                        <td>{{ $vendor->name }}</td>
                     </tr>
-                    {{-- <tr>
-                        <th>
-                            {{ trans('cruds.vendor.fields.description') }}
-                        </th>
-                        <td>
-                            {{ $vendor->description }}
-                        </td>
-                    </tr> --}}
                     <tr>
-                        <th>
-                            Vendor Contact
-                        </th>
-                        <td>
-                            {{ $vendor->contact }}
-                        </td>
+                        <th>Vendor Code</th>
+                        <td>{{ $vendor->vendor_code }}</td>
+                    </tr>
+                    <tr>
+                        <th>Vendor Email</th>
+                        <td>{{ $vendor->email }}</td>
                     </tr>
                 </tbody>
             </table>

@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('contact');
-//            $table->foreignId('users_id')->constrained();
+            $table->string('vendor_code');
+            $table->string('email');
             $table->timestamps();
             $table->softDeletes();
         });

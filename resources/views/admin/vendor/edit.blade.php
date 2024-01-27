@@ -20,40 +20,27 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.vendor.fields.name_helper') }}</span>
             </div>
-
-            {{-- <div class="form-group">
-                <label for="quantity">Quantity</label>
-                <input class="form-control {{ $errors->has('quantity') ? 'is-invalid' : '' }}" type="number" name="quantity" id="quantity" value="{{ old('quantity', $vendor->quantity) }}" required>
-                @if($errors->has('quantity'))
+            <div class="form-group">
+                <label class="required" for="vendor_code">Vendor Code</label>
+                <input class="form-control {{ $errors->has('vendor_code') ? 'is-invalid' : '' }}" type="text" name="vendor_code" id="vendor_code" value="{{ old('vendor_code', $vendor->vendor_code) }}" required>
+                @if($errors->has('vendor_code'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('quantity') }}
+                        {{ $errors->first('vendor_code') }}
                     </div>
                 @endif
-                <span class="help-block"></span>
-            </div> --}}
+                <span class="help-block">{{ trans('cruds.vendor.fields.name_helper') }}</span>
+            </div>
 
             <div class="form-group">
-                <label for="contact">Vendor contact</label>
-                <input class="form-control {{ $errors->has('contact') ? 'is-invalid' : '' }}" type="text" name="contact" id="contact" value="{{ old('contact', $vendor->contact) }}" required>
-                @if($errors->has('contact'))
+                <label for="email">Vendor email</label>
+                <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email" id="email" value="{{ old('email', $vendor->email) }}" required>
+                @if($errors->has('email'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('contact') }}
+                        {{ $errors->first('email') }}
                     </div>
                 @endif
                 <span class="help-block"></span>
             </div>
-
-
-            {{-- <div class="form-group">
-                <label for="ageing_in_days">Expire Age</label>
-                <input class="form-control {{ $errors->has('ageing_in_days') ? 'is-invalid' : '' }}" type="number" name="ageing_in_days" id="ageing_in_days" value="{{ old('ageing_in_days', $vendor->ageing_in_days) }}" required>
-                @if($errors->has('ageing_in_days'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('ageing_in_days') }}
-                    </div>
-                @endif
-                <span class="help-block"></span>
-            </div> --}}
 
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
