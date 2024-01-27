@@ -33,7 +33,7 @@
             </div>
 
             <div class="form-group">
-                <label for="vendor_id">Supplier Name</label>
+                <label for="vendor_id">Vendor code</label>
                 <input class="form-control {{ $errors->has('vendor_id') ? 'is-invalid' : '' }}" type="text" name="vendor_id" id="vendor_id" value="{{ old('vendor_id', $worker->vendor_id) }}" required>
                 @if($errors->has('vendor_id'))
                     <div class="invalid-feedback">
