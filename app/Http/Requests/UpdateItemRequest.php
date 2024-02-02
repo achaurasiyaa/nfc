@@ -2,16 +2,16 @@
 
 namespace App\Http\Requests;
 
-use App\Asset;
+use App\Item;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassDestroyItemRequest extends FormRequest
+class UpdateItemRequest extends FormRequest
 {
     public function authorize()
     {
-        abort_if(Gate::denies('item_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('item_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
 
@@ -20,8 +20,7 @@ class MassDestroyItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:assets,id',
+            'name'         => 'required',
         ];
 
     }

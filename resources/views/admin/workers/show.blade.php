@@ -3,13 +3,14 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.asset.title') }}
+        Show Worker
+        {{-- {{ trans('global.show') }} {{ trans('cruds.asset.title') }} --}}
     </div>
 
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.assets.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.worker.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -17,40 +18,40 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.asset.fields.id') }}
+                            Worker ID
                         </th>
                         <td>
-                            {{ $asset->id }}
+                            {{ $worker->id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.asset.fields.name') }}
+                            Worker Name
                         </th>
                         <td>
-                            {{ $asset->name }}
+                            {{ $worker->name }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.asset.fields.description') }}
+                            Vendor ID
                         </th>
                         <td>
-                            {{ $asset->description }}
+                            {{ $worker->vendor_id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            Danger level
+                            Gate Pass Number
                         </th>
                         <td>
-                            {{ $asset->danger_level }}
+                            {{ $worker->gate_pass_number }}
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.assets.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.worker.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>

@@ -54,17 +54,57 @@
                     </ul>
                 </li>
             @endcan
-            @can('asset_access')
+            @can('item_access')
                 <li class="nav-item">
-                    <a href="{{ route("admin.assets.index") }}" class="nav-link {{ request()->is('admin/assets') || request()->is('admin/assets/*') ? 'active' : '' }}">
+                    <a href="{{ route("admin.items.index") }}" class="nav-link {{ request()->is('admin/items') || request()->is('admin/items/*') ? 'active' : '' }}">
                         <i class="fa-fw fas fa-cogs nav-icon">
 
                         </i>
-                        {{ trans('cruds.asset.title') }}
+                        Add Item
+                        {{-- {{ trans('cruds.asset.title') }} --}}
                     </a>
                 </li>
             @endcan
-            @can('stock_access')
+            @can('worker_access')
+                <li class="nav-item">
+                    <a href="{{ route("admin.worker.index") }}" class="nav-link {{ request()->is('admin/worker') || request()->is('admin/worker/*') ? 'active' : '' }}">
+                        <i class="fa-fw fas fa-cogs nav-icon">
+                        </i>
+                        Add Worker
+                    </a>
+                </li>
+            @endcan
+            @can('vendor_access')
+            <li class="nav-item">
+                <a href="{{ route("admin.vendor.index") }}" class="nav-link {{ request()->is('admin/vendor') || request()->is('admin/vendor/*') ? 'active' : '' }}">
+                    <i class="fa-fw fas fa-cogs nav-icon">
+
+                    </i>
+                    Add Vendor
+                </a>
+            </li>
+        @endcan
+        @can('issue_record_access')
+            <li class="nav-item">
+                <a href="{{ route("admin.issue_record.index") }}" class="nav-link {{ request()->is('admin/issue_record') || request()->is('admin/issue_record/*') ? 'active' : '' }}">
+                    <i class="fa-fw fas fa-cogs nav-icon">
+
+                    </i>
+                    Issue Record
+                </a>
+            </li>
+        @endcan
+        @can('issue_record_access')
+            <li class="nav-item">
+                <a href="{{ route("admin.assign_worker.index") }}" class="nav-link {{ request()->is('admin/assign_worker') || request()->is('admin/assign_worker/*') ? 'active' : '' }}">
+                    <i class="fa-fw fas fa-cogs nav-icon">
+
+                    </i>
+                    Assign Worker
+                </a>
+            </li>
+        @endcan
+            {{-- @can('stock_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.stocks.index") }}" class="nav-link {{ request()->is('admin/stocks') || request()->is('admin/stocks/*') ? 'active' : '' }}">
                         <i class="fa-fw fas fa-cogs nav-icon">
@@ -73,8 +113,8 @@
                         {{ trans('cruds.stock.title') }}
                     </a>
                 </li>
-            @endcan
-            @can('transaction_access')
+            @endcan --}}
+            {{-- @can('transaction_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.transactions.index") }}" class="nav-link {{ request()->is('admin/transactions') || request()->is('admin/transactions/*') ? 'active' : '' }}">
                         <i class="fa-fw fas fa-cogs nav-icon">
@@ -83,7 +123,7 @@
                         {{ trans('cruds.transaction.title') }}
                     </a>
                 </li>
-            @endcan
+            @endcan --}}
             @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                 @can('profile_password_edit')
                     <li class="nav-item">

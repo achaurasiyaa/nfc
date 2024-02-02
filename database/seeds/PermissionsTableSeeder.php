@@ -74,23 +74,23 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => '17',
-                'title' => 'asset_create',
+                'title' => 'item_create',
             ],
             [
                 'id'    => '18',
-                'title' => 'asset_edit',
+                'title' => 'item_edit',
             ],
             [
                 'id'    => '19',
-                'title' => 'asset_show',
+                'title' => 'item_show',
             ],
             [
                 'id'    => '20',
-                'title' => 'asset_delete',
+                'title' => 'item_delete',
             ],
             [
                 'id'    => '21',
-                'title' => 'asset_access',
+                'title' => 'item_access',
             ],
             [
                 'id'    => '22',
@@ -155,6 +155,70 @@ class PermissionsTableSeeder extends Seeder
             [
                 'id'    => '37',
                 'title' => 'profile_password_edit',
+            ],
+            [
+                'id'    => '38',
+                'title' => 'vendor_access',
+            ],
+            [
+                'id'    => '39',
+                'title' => 'vendor_create',
+            ],
+            [
+                'id'    => '40',
+                'title' => 'vendor_edit',
+            ],
+            [
+                'id'    => '41',
+                'title' => 'vendor_show',
+            ],
+            [
+                'id'    => '42',
+                'title' => 'vendor_delete',
+            ],
+            [
+                'id'    => '43',
+                'title' => 'worker_access',
+            ],
+            [
+                'id'    => '44',
+                'title' => 'worker_create',
+            ],
+            [
+                'id'    => '45',
+                'title' => 'worker_edit',
+            ],
+            [
+                'id'    => '46',
+                'title' => 'worker_show',
+            ],
+            [
+                'id'    => '47',
+                'title' => 'worker_delete',
+            ],
+            [
+                'id'    => '48',
+                'title' => 'issue_record_access',
+            ],
+            [
+                'id'    => '49',
+                'title' => 'issue_record_create',
+            ],
+            [
+                'id'    => '50',
+                'title' => 'issue_record_edit',
+            ],
+            [
+                'id'    => '51',
+                'title' => 'issue_record_show',
+            ],
+            [
+                'id'    => '52',
+                'title' => 'issue_record_delete',
+            ],
+            [
+                'id'    => '53',
+                'title' => 'assign_worker_access',
             ],
         ];
 
