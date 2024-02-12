@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.create') }} {{ trans('cruds.item.title_singular') }}
-    </div>
+    <div class="card">
+        <div class="card-header">
+            {{ trans('global.create') }} {{ trans('cruds.item.title_singular') }}
+        </div>
 
     <div class="card-body">
         <form method="POST" action="{{ route("admin.items.store") }}" enctype="multipart/form-data">
@@ -57,6 +57,22 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.item.fields.name_helper') }}</span>
             </div>
+
+            <div class="form-group">
+                <label class="required" for="category_id">Category</label>
+                <select class="form-control {{ $errors->has('category_id') ? 'is-invalid' : '' }}" name="category_id" id="category_id" required>
+                    <option value="" selected disabled>Select Category</option>
+                    @foreach($itemCategories as $itemCategory)
+                        <option value="{{ $itemCategory->id }}">{{ $itemCategory->name }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('category_id'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('category_id') }}
+                    </div>
+                @endif
+            </div>
+
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}

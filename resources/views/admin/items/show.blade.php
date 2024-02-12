@@ -55,6 +55,14 @@
                             {{ $item->ageing_in_days }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            Category
+                        </th>
+                        <td>
+                            {{ $item->category->name }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

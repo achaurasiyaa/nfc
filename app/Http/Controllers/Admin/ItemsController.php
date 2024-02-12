@@ -13,12 +13,12 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Item;
 use App\Worker;
 use App\Asset;
-
+use App\ItemCategory;
 class ItemsController extends Controller
 {
     public function index()
     {
-        // dd('as');
+//         dd('as');
         abort_if(Gate::denies('item_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $items = Item::all();
@@ -29,16 +29,23 @@ class ItemsController extends Controller
     public function create()
     {
         abort_if(Gate::denies('item_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.items.create');
+        $itemCategories = ItemCategory::all();
+        return view('admin.items.create', compact('itemCategories'));
     }
 
-    public function store(StoreItemRequest $request)
+    public function store(Request $request)
     {
-        $item = Item::create($request->all());
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'supplier_name' => 'required|string|max:255',
+            'quantity' => 'required|integer',
+            'ageing_in_days' => 'required|integer',
+            'category_id' => 'required|exists:item_categories,id',
+        ]);
 
-        return redirect()->route('admin.items.index');
+        $item = Item::create($data);
 
+        return redirect()->route('admin.items.index')->with('success', 'Item created successfully.');
     }
 
     public function edit(Item $item)
@@ -66,8 +73,9 @@ class ItemsController extends Controller
     public function show(Item $item)
     {
         abort_if(Gate::denies('item_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.items.show', compact('item'));
+        $category = ItemCategory::findOrFail($item->category_id);
+        $categoryName = $category->name;
+        return view('admin.items.show', compact('item', 'categoryName'));
     }
 
     public function destroy(Item $item)
@@ -91,5 +99,31 @@ class ItemsController extends Controller
     public function addWorkers(Worker $request)
     {
         return view('workers.create');
+    }
+
+    public function category(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'required|string',
+                'image' => 'required|image|max:2048',
+            ]);
+            $category = new ItemCategory();
+            $category->name = $validatedData['name'];
+            $category->description = $validatedData['description'];
+
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('images');
+                $category->image = $imagePath;
+            }
+
+            $category->save();
+
+            return redirect()->route('admin.items.index')->with('success', 'Category created successfully!');
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Failed to create category. Please try again.');
+        }
     }
 }
