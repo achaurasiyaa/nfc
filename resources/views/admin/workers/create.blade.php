@@ -40,6 +40,16 @@
                 {{-- <span class="help-block">{{ trans('cruds.worker.fields.name_helper') }}</span> --}}
             </div>
 
+            <div class="form-group">
+                <label class="required" for="mobile_number">Mobile Number</label>
+                <input class="form-control {{ $errors->has('mobile') ? 'is-invalid' : '' }}" type="number" name="mobile" id="mobile" value="{{ old('mobile') }}" required>
+                @if($errors->has('mobile'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('mobile') }}
+                    </div>
+                @endif
+            </div>
+
             {{-- <div class="form-group">
                 <label class="required" for="ageing_in_days">Expire Age</label>
                 <select class="form-control {{ $errors->has('ageing_in_days') ? 'is-invalid' : '' }}" name="ageing_in_days" id="ageing_in_days" required>
