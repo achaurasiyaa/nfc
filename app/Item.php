@@ -24,11 +24,17 @@ class Item extends Model
         'quantity',
         'ageing_in_days',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'category_id',
     ];
     public function nfcTags()
 {
     return $this->hasMany(ItemNfcRel::class);
 }
+
+    public function category()
+    {
+        return $this->belongsTo(ItemCategory::class, 'category_id');
+    }
 
 }

@@ -29,6 +29,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // items
     Route::delete('items/destroy', 'ItemsController@massDestroy')->name('items.massDestroy');
     Route::resource('items', 'ItemsController');
+    Route::post('items/category', 'ItemsController@category')->name('items.category');
 
      // Vendor
      Route::delete('vendor/destroy', 'VendorController@massDestroy')->name('vendor.massDestroy');
@@ -37,12 +38,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
      // Issue Record
      Route::delete('issue_record/destroy', 'IssueRecordController@massDestroy')->name('issue_record.massDestroy');
      Route::resource('issue_record', 'IssueRecordController');
- 
+
      // Assign Worker
      Route::delete('assign_worker/destroy', 'AssignWorkerController@massDestroy')->name('assign_worker.massDestroy');
      Route::resource('assign_worker', 'AssignWorkerController');
     //  Route::get('assign_worker/assignWorker', 'AssignWorkerController@assignWorker')->name('admin.assign_worker.assignWorker');
-   
+
     //  assign_worker_access
      // Worker
      Route::delete('worker/destroy', 'WorkerController@massDestroy')->name('worker.massDestroy');
