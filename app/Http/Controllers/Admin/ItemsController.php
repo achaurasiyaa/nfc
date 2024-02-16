@@ -14,6 +14,7 @@ use App\Item;
 use App\Worker;
 use App\Asset;
 use App\ItemCategory;
+use App\ItemNfcRel;
 class ItemsController extends Controller
 {
     public function index()
@@ -45,7 +46,24 @@ class ItemsController extends Controller
 
         $item = Item::create($data);
 
+        $nfcSerialNumbers = [];
+        for ($i = 0; $i < $data['quantity']; $i++) {
+            $nfcSerialNumbers[] = $this->generateNfcSerialNumber();
+        }
+
+        foreach ($nfcSerialNumbers as $nfcSerialNumber) {
+            ItemNfcRel::create([
+                'nfc_serial_number' => $nfcSerialNumber,
+                'item_id' => $item->id,
+            ]);
+        }
+
         return redirect()->route('admin.items.index')->with('success', 'Item created successfully.');
+    }
+
+    private function generateNfcSerialNumber()
+    {
+        return \Illuminate\Support\Str::uuid()->toString();
     }
 
     public function edit(Item $item)
