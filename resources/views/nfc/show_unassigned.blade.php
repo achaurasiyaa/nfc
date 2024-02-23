@@ -46,36 +46,47 @@
         td {
             background-color: #ffffff;
         }
+
+        .assign-button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Centering the table */
+        .table-container {
+            text-align: center;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>NFC Item Details</h1>
-    <table>
-        <tr>
-            <th>Attribute</th>
-            <th>Value</th>
-        </tr>
-        <tr>
-            <td>NFC Serial Number:</td>
-            <td>{{ $nfcItem->nfc_serial_number }}</td>
-        </tr>
-        @if ($worker)
+    <div class="table-container">
+        <table>
             <tr>
-                <td>Worker Name:</td>
-                <td>{{ $worker->name }}</td>
+                <th>Attribute</th>
+                <th>Value</th>
             </tr>
             <tr>
-                <td>Issue Date:</td>
-                <td>{{ $issueRecord->issue_date }}</td>
+                <td>NFC Serial Number:</td>
+                <td>{{ $nfcItem->nfc_serial_number }}</td>
             </tr>
-            <tr>
-                <td>Expiry Date:</td>
-                <td>{{ $issueRecord->expiry_date }}</td>
-            </tr>
-        @endif
-    </table>
+        </table>
+    </div>
+    @if($showAssignButton)
+        <form action="{{ route('assign.worker', ['nfc_serial_number' => $nfcItem->nfc_serial_number]) }}" method="GET">
+            @csrf
+            <br>
+            <button class="assign-button" type="submit">Assign Worker</button>
+        </form>
+    @endif
 </div>
 
 </body>

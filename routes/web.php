@@ -75,6 +75,8 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 });
 
 Route::get('/nfc/{nfc_serial_number}', 'NfcController@show')->name('nfc.show');
+Route::get('/assign/worker/{nfc_serial_number}', 'NfcController@assignWorker')->name('assign.worker');
+
 
 Route::post('/nfc/{nfc_serial_number}', 'NfcController@assignToWorker')->name('nfc.assignToWorker');
 Route::get('assign_worker/workers', [AssignWorkerController::class, 'getWorkers'])->name('admin.workers.getWorkers');
