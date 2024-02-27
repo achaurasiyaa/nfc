@@ -251,15 +251,12 @@ class WorkerController extends Controller
         return response()->download($csvFilePath)->deleteFileAfterSend(true);
     }
 
-    public function searchWorkers(Request $request)
+
+    public function searchWorker(Request $request)
     {
-        $searchTerm = $request->input('searchTerm');
-
-        $workers = Worker::where('gate_pass_number', 'like', "%{$searchTerm}%")
-            ->select('name')
-            ->get();
-
-        return response()->json($workers->pluck('name')); // Return only names as an array
+        $gatePassNumber = $request->input('gate_pass_number');
+        $worker = Worker::where('gate_pass_number', 'like', '%' . $gatePassNumber . '%')->first();
+        return response()->json(['name' => $worker ? $worker->name : '']);
     }
 
 }

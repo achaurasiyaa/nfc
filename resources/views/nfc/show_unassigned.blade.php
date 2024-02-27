@@ -93,33 +93,5 @@
     </form>
 
 </div>
-
-<script>
-    $(document).ready(function() {
-        $('#search').keyup(function() {
-            var searchTerm = $(this).val().toLowerCase();
-            if (searchTerm.length >= 2) {
-                $.ajax({
-                    url: '/searchWorkers',
-                    type: 'GET',
-                    dataType: 'json',
-                    data: { searchTerm: searchTerm },
-                    success: function(response) {
-                        $('#workerNames').empty();
-                        $.each(response, function(index, value) {
-                            $('#workerNames').append('<option value="' + value + '">' + value + '</option>');
-                        });
-                    },
-                    error: function(error) {
-                        console.error("Error:", error);
-                    }
-                });
-            } else {
-                $('#workerNames').empty();
-            }
-        });
-    });
-</script>
-
 </body>
 </html>
