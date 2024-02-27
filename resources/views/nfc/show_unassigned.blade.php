@@ -87,11 +87,17 @@
     <form id="assignWorkerForm" action="{{ route('assign.worker', ['nfc_serial_number' => $nfcItem->nfc_serial_number]) }}" method="GET">
         @csrf
         <br>
-        <label for="search">Search Gate:</label>
-        <input type="text" id="search" name="search" placeholder="Search Gate Pass Number">
+        <div class="form-group">
+            <label for="gate_pass_number">Gate Pass Number</label>
+            <input type="text" name="gate_pass_number" placeholder="Gate Pass Number" class="form-control" id="gate_pass_number" data-minimum-characters="1">
+        </div>
+        <br>
         <button class="assign-button" type="submit">Assign Worker</button>
     </form>
 
 </div>
+<script>
+
+</script>
 </body>
 </html>

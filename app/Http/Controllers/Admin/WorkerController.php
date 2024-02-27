@@ -252,7 +252,7 @@ class WorkerController extends Controller
     }
 
 
-    public function searchWorker(Request $request)
+    public function searchWorkers(Request $request)
     {
         $gatePassNumber = $request->input('gate_pass_number');
         $worker = Worker::where('gate_pass_number', 'like', '%' . $gatePassNumber . '%')->first();

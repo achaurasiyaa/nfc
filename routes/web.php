@@ -44,12 +44,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
      Route::resource('assign_worker', 'AssignWorkerController');
     //  Route::get('assign_worker/assignWorker', 'AssignWorkerController@assignWorker')->name('admin.assign_worker.assignWorker');
 
+
     //  assign_worker_access
      // Worker
      Route::delete('worker/destroy', 'WorkerController@massDestroy')->name('worker.massDestroy');
      Route::resource('worker', 'WorkerController');
      Route::post('worker/bulk_upload', 'WorkerController@bulkUpload')->name('worker.bulkUpload');
      Route::get('/download-csv-template', 'WorkerController@downloadCsvTemplate')->name('download.csv.template');
+    Route::get('/search-workers', 'WorkerController@searchWorkers')->name('search_workers');
+
+
+
 
     // Teams
     Route::delete('teams/destroy', 'TeamController@massDestroy')->name('teams.massDestroy');
@@ -84,4 +89,4 @@ Route::post('assign_worker/assignItem/{nfc_serial_number}', [AssignWorkerControl
 // routes/web.php
 
 Route::get('workers/details-by-gate-pass-number', [AssignWorkerController::class,'getWorkerDetailsByGatePassNumber'])->name('admin.workers.getWorkerDetailsByGatePassNumber');
-Route::get('/search/workers', 'WorkerController@searchWorkers')->name('search.workers');
+Route::get('/search-workers', 'WorkerController@searchWorkers')->name('search_workers');
