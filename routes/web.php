@@ -84,3 +84,4 @@ Route::post('assign_worker/assignItem/{nfc_serial_number}', [AssignWorkerControl
 // routes/web.php
 
 Route::get('workers/details-by-gate-pass-number', [AssignWorkerController::class,'getWorkerDetailsByGatePassNumber'])->name('admin.workers.getWorkerDetailsByGatePassNumber');
+Route::get('/search/workers', 'WorkerController@searchWorkers')->name('search.workers');

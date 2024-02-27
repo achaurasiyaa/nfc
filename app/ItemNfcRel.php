@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
 use App\Item;
+use App\Worker;
 
 class ItemNfcRel extends Model
 {
@@ -33,5 +34,10 @@ class ItemNfcRel extends Model
     public function item()
     {
         return $this->belongsTo(Item::class);
+    }
+
+    public function worker()
+    {
+        return $this->belongsTo(Worker::class);
     }
 }

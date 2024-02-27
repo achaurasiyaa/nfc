@@ -14,14 +14,13 @@ class NfcController extends Controller
     public function show($nfc_serial_number)
     {
         $nfcItem = ItemNfcRel::where('nfc_serial_number', $nfc_serial_number)->first();
-
+        $gatePassNumbers = Worker::all()->pluck('gate_pass_number')->toArray();
         if (!$nfcItem) {
             abort(404);
         }
 
-        $issueRecord = IssueRecord::where('nfc_tag_id', $nfcItem->id)->first();
+        $issueRecord = IssueRecord::where('nfc_tag_id', $nfcItem->id)->with('worker')->first();
         $showAssignButton = true;
-
         if ($issueRecord && $issueRecord->worker_id) {
             $worker = Worker::find($issueRecord->worker_id);
             return view('nfc.show', [
@@ -29,12 +28,14 @@ class NfcController extends Controller
                 'worker' => $worker,
                 'issueRecord' => $issueRecord,
                 'showAssignButton' => $showAssignButton,
+                'gatePassNumbers' => $gatePassNumbers,
             ]);
         } else {
             if (Auth::check()) {
                 return view('nfc.show_unassigned', [
                     'nfcItem' => $nfcItem,
                     'showAssignButton' => $showAssignButton,
+                    'gatePassNumbers' => $gatePassNumbers,
                 ]);
             } else {
                 return redirect()->route('login')->with('error', 'You need to be logged in to assign a worker.');
@@ -54,23 +55,20 @@ class NfcController extends Controller
             return redirect()->route('login')->with('error', 'You need to be logged in to assign a worker.');
         }
 
-        $worker = Worker::All();
-        dd($worker);
-        if (!$worker) {
-            return redirect()->route('nfc.show', ['nfc_serial_number' => $nfc_serial_number])->with('error', 'Worker not found.');
-        }
+        $gatePassNumber = request()->input('gate_pass_number');
+        $worker = Worker::where('gate_pass_number', $gatePassNumber)->first();
 
-        $issueRecord = IssueRecord::where('worker_id', $worker->id)->first();
-
-        if (!$issueRecord) {
+        if ($worker) {
             $issueRecord = new IssueRecord();
+            $issueRecord->worker_id = $worker->id;
             $issueRecord->issue_date = now();
             $issueRecord->nfc_tag_id = $nfcItem->id;
+            $issueRecord->save();
+
+            return redirect()->route('nfc.show', ['nfc_serial_number' => $nfc_serial_number])->with('success', 'Worker assigned successfully.');
+        } else {
+            return back()->with('error', 'Worker not found');
         }
-        $issueRecord->worker_id = $worker->id;
-        $issueRecord->save();
-
-
-        return redirect()->route('nfc.show', ['nfc_serial_number' => $nfc_serial_number])->with('success', 'Worker assigned successfully.');
     }
+
 }

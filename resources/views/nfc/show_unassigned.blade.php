@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <title>NFC Item Details</title>
     <style>
         body {
@@ -80,14 +83,43 @@
             </tr>
         </table>
     </div>
-    @if($showAssignButton)
-        <form action="{{ route('assign.worker', ['nfc_serial_number' => $nfcItem->nfc_serial_number]) }}" method="GET">
-            @csrf
-            <br>
-            <button class="assign-button" type="submit">Assign Worker</button>
-        </form>
-    @endif
+
+    <form id="assignWorkerForm" action="{{ route('assign.worker', ['nfc_serial_number' => $nfcItem->nfc_serial_number]) }}" method="GET">
+        @csrf
+        <br>
+        <label for="search">Search Gate:</label>
+        <input type="text" id="search" name="search" placeholder="Search Gate Pass Number">
+        <button class="assign-button" type="submit">Assign Worker</button>
+    </form>
+
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#search').keyup(function() {
+            var searchTerm = $(this).val().toLowerCase();
+            if (searchTerm.length >= 2) {
+                $.ajax({
+                    url: '/searchWorkers',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: { searchTerm: searchTerm },
+                    success: function(response) {
+                        $('#workerNames').empty();
+                        $.each(response, function(index, value) {
+                            $('#workerNames').append('<option value="' + value + '">' + value + '</option>');
+                        });
+                    },
+                    error: function(error) {
+                        console.error("Error:", error);
+                    }
+                });
+            } else {
+                $('#workerNames').empty();
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

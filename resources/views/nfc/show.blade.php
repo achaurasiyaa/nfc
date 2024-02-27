@@ -77,6 +77,10 @@
         @endif
     </table>
 </div>
+<script>
+    var gatePassNumbers = @json($gatePassNumbers);
+    document.getElementById('worker_id').value = gatePassNumbers.join(', ');
+</script>
 
 </body>
 </html>

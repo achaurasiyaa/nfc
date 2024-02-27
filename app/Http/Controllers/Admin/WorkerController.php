@@ -103,7 +103,7 @@ class WorkerController extends Controller
     {
         return view('workers.create');
     }
-    
+
     public function getWorkerDetailsByGatePassNumber(Request $request)
     {
         dd('1111111');
@@ -123,7 +123,7 @@ class WorkerController extends Controller
         // Return the worker details as JSON response
         return response()->json(['worker' => $workerDetails]);
     }
-  
+
     // public function bulkUpload(Request $request)
     // {
     //     // Check if a file is present in the request
@@ -141,7 +141,7 @@ class WorkerController extends Controller
     //                     dd("Mismatch in row : Headers count does not match data count");
     //                 }
     //                 $rowData = array_combine($headers, $data);
-                    
+
     //                 $existingRecord = Worker::where('gate_pass_number', $rowData['gate_pass_number'])->exists();;
     //                 $vendorIdExists = Vendor::where('id', $rowData['vendor_id'])->exists();
 
@@ -151,7 +151,7 @@ class WorkerController extends Controller
     //                         'gate_pass_number' => $rowData['gate_pass_number'],
     //                         'mobile' => $rowData['mobile'],
     //                         'vendor_id' => $rowData['vendor_id'],
-                            
+
     //                         // Add more fields as needed
     //                     ]);
     //                 } else {
@@ -249,6 +249,17 @@ class WorkerController extends Controller
 
         // Provide a link to download the CSV file
         return response()->download($csvFilePath)->deleteFileAfterSend(true);
+    }
+
+    public function searchWorkers(Request $request)
+    {
+        $searchTerm = $request->input('searchTerm');
+
+        $workers = Worker::where('gate_pass_number', 'like', "%{$searchTerm}%")
+            ->select('name')
+            ->get();
+
+        return response()->json($workers->pluck('name')); // Return only names as an array
     }
 
 }
