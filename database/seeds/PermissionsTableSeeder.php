@@ -220,6 +220,10 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => '53',
                 'title' => 'assign_worker_access',
             ],
+            [
+                'id'    => '54',
+                'title' => 'search_workers',
+            ],
         ];
 
         Permission::insert($permissions);
