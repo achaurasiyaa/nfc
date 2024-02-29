@@ -256,7 +256,17 @@ class WorkerController extends Controller
     {
         $gatePassNumber = $request->input('gate_pass_number');
         $worker = Worker::where('gate_pass_number', 'like', '%' . $gatePassNumber . '%')->first();
-        return response()->json(['name' => $worker ? $worker->name : '']);
+        if ($worker) {
+            return response()->json([
+                'success' => true,
+                'name' => $worker->name,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Worker not found.',
+            ]);
+        }
     }
 
 }

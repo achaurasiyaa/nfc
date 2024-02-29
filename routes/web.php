@@ -51,7 +51,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
      Route::resource('worker', 'WorkerController');
      Route::post('worker/bulk_upload', 'WorkerController@bulkUpload')->name('worker.bulkUpload');
      Route::get('/download-csv-template', 'WorkerController@downloadCsvTemplate')->name('download.csv.template');
-    Route::get('/search-workers', 'WorkerController@searchWorkers')->name('search_workers');
 
 
 
@@ -70,6 +69,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('transactions', 'TransactionsController')->only(['index']);
 
 });
+
+Route::get('search.workers', 'Admin\WorkerController@searchWorkers')->name('search.workers');
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
 // Change password
     if (file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php'))) {
@@ -89,4 +90,3 @@ Route::post('assign_worker/assignItem/{nfc_serial_number}', [AssignWorkerControl
 // routes/web.php
 
 Route::get('workers/details-by-gate-pass-number', [AssignWorkerController::class,'getWorkerDetailsByGatePassNumber'])->name('admin.workers.getWorkerDetailsByGatePassNumber');
-Route::get('/search-workers', 'WorkerController@searchWorkers')->name('search_workers');

@@ -89,7 +89,7 @@
         <br>
         <div class="form-group">
             <label for="gate_pass_number">Gate Pass Number</label>
-            <input type="text" name="gate_pass_number" placeholder="Gate Pass Number" class="form-control" id="gate_pass_number" data-minimum-characters="1">
+            <input type="text" name="gate_pass_number" placeholder="Enter gate pass number" class="form-control" id="gate_pass_number" data-minimum-characters="1">
         </div>
         <br>
         <button class="assign-button" type="submit">Assign Worker</button>
@@ -97,6 +97,32 @@
 
 </div>
 <script>
+    $(document).ready(function() {
+
+        $('#gate_pass_number').on('input', function() {
+
+            let gatePassNumber = $(this).val();
+            $.ajax({
+                url: "{{ route('search.workers') }}",
+                method: "GET",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    gate_pass_number: gatePassNumber
+                },
+                success: function(response) {
+                    if (response.success) {
+                        var newGatePassNumber = response.name
+                        $('#gate_pass_number').val(newGatePassNumber);
+                    } else {
+                        $('#gate_pass_number').val(gatePassNumber);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX request failed:", xhr.responseText);
+                }
+            });
+        });
+    });
 
 </script>
 </body>

@@ -8,7 +8,7 @@ use App\ItemNfcRel;
 use App\IssueRecord;
 use App\Worker;
 use App\Vendor;
-
+use DB;
 class NfcController extends Controller
 {
     public function show($nfc_serial_number)
@@ -55,8 +55,8 @@ class NfcController extends Controller
             return redirect()->route('login')->with('error', 'You need to be logged in to assign a worker.');
         }
 
-        $gatePassNumber = request()->input('gate_pass_number');
-        $worker = Worker::where('gate_pass_number', $gatePassNumber)->first();
+        $name = request()->input('gate_pass_number');
+        $worker = Worker::where('name', $name)->first();
 
         if ($worker) {
             $issueRecord = new IssueRecord();
