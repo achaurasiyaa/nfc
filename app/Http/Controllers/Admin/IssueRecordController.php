@@ -27,7 +27,7 @@ class IssueRecordController extends Controller
     //     foreach($issueRecords as $issueRecord ){
     //         $worker = Worker::find($issueRecord->worker_id);
     //       $vendor = Vendor::find($worker->vendor_id);
-          
+
     //     }
     //     dd($issueRecord);
 
@@ -136,4 +136,9 @@ class IssueRecordController extends Controller
     {
         return view('workers.create');
     }
+    public function scrapItem(Request $request)
+    {
+//        dd($request);
+    }
+
 }

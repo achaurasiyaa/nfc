@@ -3,7 +3,7 @@
 @section('content')
 @can('issue_record_create')
     <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-6">
             <a class="btn btn-success" href="{{ route("admin.issue_record.create") }}">
                 Issued Record
             </a>
@@ -44,7 +44,7 @@
                             <td>{{ $record['is_expired'] ? 'Yes' : 'No' }}</td>
                             <td>{{ $record['expire_date'] ?? 'Not specified' }}</td>
                             <td>
-                                {{-- Add action buttons (view, edit, delete) here if needed --}}
+                                <button class="btn btn-danger moveToScrap" data-nfc-tag-id="{{ $record['nfc_tag_id'] }}">Move to Scrap</button>
                             </td>
                         </tr>
                     @endforeach
@@ -59,8 +59,28 @@
 @section('scripts')
 @parent
 <script>
-    $(function () {
-        // Your existing script for DataTables
+    $(document).ready(function () {
+
+        $('.moveToScrap').click(function() {
+            var nfcTagId = $(this).data('nfcTagId');
+            $.ajax({
+                url: '/scrap-item',
+                type: 'POST',
+                data: { nfc_tag_id: nfcTagId },
+                success: function (response) {
+                    if (response.success) {
+                        alert("Item moved to scrap successfully!");
+                        $('.datatable-Item').DataTable().ajax.reload();
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("Error:", textStatus, errorThrown);
+                    alert("An error occurred. Please try again later.");
+                }
+            });
+        });
     });
 </script>
 @endsection
