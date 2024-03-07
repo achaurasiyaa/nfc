@@ -18,6 +18,7 @@ class IssueRecord extends Model
         'nfc_tag_id',
         'is_expired',
         'expire_date',
+        'deleted_at',
     ];
 
     public function worker()

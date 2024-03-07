@@ -40,6 +40,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Issue Record
     Route::delete('issue_record/destroy', 'IssueRecordController@massDestroy')->name('issue_record.massDestroy');
     Route::resource('issue_record', 'IssueRecordController');
+    Route::post('issue_record/issue', 'IssueRecordController@issue')->name('nfc-tags.move-to-scrap');
 
     // Assign Worker
     Route::delete('assign_worker/destroy', 'AssignWorkerController@massDestroy')->name('assign_worker.massDestroy');
@@ -82,6 +83,8 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 
 Route::get('/nfc/{nfc_serial_number}', 'NfcController@show')->name('nfc.show');
 Route::get('/assign/worker/{nfc_serial_number}', 'NfcController@assignWorker')->name('assign.worker');
+Route::post('/nfc-tags/move-to-scrap', 'NfcController@moveToScrap')->name('nfc-tags.move-to-scrap');
+
 
 
 Route::post('/nfc/{nfc_serial_number}', 'NfcController@assignToWorker')->name('nfc.assignToWorker');
@@ -90,5 +93,3 @@ Route::post('assign_worker/assignItem/{nfc_serial_number}', [AssignWorkerControl
 // routes/web.php
 
 Route::get('workers/details-by-gate-pass-number', [AssignWorkerController::class, 'getWorkerDetailsByGatePassNumber'])->name('admin.workers.getWorkerDetailsByGatePassNumber');
-Route::post('/scrap-item', [App\Http\Controllers\IssueRecordController::class, 'scrapItem'])->name('scrap-item');
-

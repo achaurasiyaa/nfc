@@ -9,6 +9,7 @@ use App\IssueRecord;
 use App\Worker;
 use App\Vendor;
 use DB;
+
 class NfcController extends Controller
 {
     public function show($nfc_serial_number)
@@ -71,4 +72,29 @@ class NfcController extends Controller
         }
     }
 
+    public function moveToScrap(Request $request)
+    {
+        $nfc_serial_number = ItemNfcRel::query()
+            ->where('nfc_serial_number', $request->nfc_serial_number)
+            ->first();
+        if ($nfc_serial_number) {
+            $nfc_serial_number->update([
+                'status' => 'Scrapped',
+            ]);
+            $issueRecord = IssueRecord::where('nfc_tag_id', $nfc_serial_number->id)->first();
+            if ($issueRecord) {
+                $issueRecord->update([
+                    'is_expired' => 1,
+                    'expire_date' => now(),
+                    'deleted_at' => now(),
+                    'is_visible_on_dashboard' => true,
+                ]);
+            }
+            return redirect()->route('admin.issue_record.index')
+                ->with('success', 'NFC Tag moved to scrap successfully.');
+        } else {
+            return redirect()->route('admin.issue_record.index')
+                ->with('error', 'NFC Tag not found.');
+        }
+    }
 }

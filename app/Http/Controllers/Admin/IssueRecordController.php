@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Vendor;
 use App\Worker;
 use App\IssueRecord;
-Use App\ItemNfcRel;
+use App\ItemNfcRel;
 use App\Item;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyVendorRequest;
@@ -39,18 +39,14 @@ class IssueRecordController extends Controller
         abort_if(Gate::denies('issue_record_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         // Fetch all issue records with related data
-        $issueRecords = IssueRecord::with(['worker.vendor', 'nfcTag.item'])->get();
-
-        // You can use the following loop to access related data
-        foreach ($issueRecords as $issueRecord) {
-            // Access related data
+        $issueRecords = IssueRecord::with(['worker.vendor', 'nfcTag.item'])->whereNull('deleted_at')->get()
+        ->map(function ($issueRecord) {
             $workerName = $issueRecord->worker->name;
             $vendorName = $issueRecord->worker->vendor->name;
             $nfcTagId = $issueRecord->nfcTag->nfc_serial_number;
             $itemName = $issueRecord->nfcTag->item->name;
 
-            // Do something with the data (e.g., create a new structure to pass to the view)
-            $formattedIssueRecords[] = [
+            return [
                 'worker_name' => $workerName,
                 'vendor_name' => $vendorName,
                 'nfc_tag_id' => $nfcTagId,
@@ -58,12 +54,8 @@ class IssueRecordController extends Controller
                 'issue_date' => $issueRecord->issue_date,
                 'is_expired' => $issueRecord->is_expired,
                 'expire_date' => $issueRecord->expire_date,
-                // Add other fields as needed
             ];
-        }
-
-        // dd($formattedIssueRecords); // Uncomment for debugging
-
+        });
         return view('admin.issue_record.index', compact('formattedIssueRecords'));
     }
 
@@ -94,11 +86,9 @@ class IssueRecordController extends Controller
 
     public function update(UpdateVendorRequest $request, Vendor $vendor)
     {
-        try
-        {
+        try {
             $vendor->update($request->all());
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             // Log or display the error message
             dd($e->getMessage());
         }
@@ -135,10 +125,6 @@ class IssueRecordController extends Controller
     public function addWorkers(Worker $request)
     {
         return view('workers.create');
-    }
-    public function scrapItem(Request $request)
-    {
-//        dd($request);
     }
 
 }

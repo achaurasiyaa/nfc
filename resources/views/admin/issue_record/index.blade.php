@@ -1,25 +1,25 @@
 @extends('layouts.admin')
 
 @section('content')
-@can('issue_record_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-6">
-            <a class="btn btn-success" href="{{ route("admin.issue_record.create") }}">
-                Issued Record
-            </a>
+    @can('issue_record_create')
+        <div style="margin-bottom: 10px;" class="row">
+            <div class="col-lg-6">
+                <a class="btn btn-success" href="{{ route("admin.issue_record.create") }}">
+                    Issued Record
+                </a>
+            </div>
         </div>
-    </div>
-@endcan
+    @endcan
 
-<div class="card">
-    <div class="card-header">
-        Issue Record
-    </div>
+    <div class="card">
+        <div class="card-header">
+            Issue Record
+        </div>
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover datatable datatable-Item">
-                <thead>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover datatable datatable-Item">
+                    <thead>
                     <tr>
                         <th width="10"></th>
                         <th>Worker Name</th>
@@ -31,8 +31,8 @@
                         <th>Expire Date</th>
                         <th>Action</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     @foreach($formattedIssueRecords as $key => $record)
                         <tr data-entry-id="{{ $key + 1 }}">
                             <td>{{ $key + 1 }}</td>
@@ -44,43 +44,24 @@
                             <td>{{ $record['is_expired'] ? 'Yes' : 'No' }}</td>
                             <td>{{ $record['expire_date'] ?? 'Not specified' }}</td>
                             <td>
-                                <button class="btn btn-danger moveToScrap" data-nfc-tag-id="{{ $record['nfc_tag_id'] }}">Move to Scrap</button>
+                                <form method="POST" action="{{ route('nfc-tags.move-to-scrap') }}">
+                                    @csrf
+                                    <input type="hidden" name="nfc_serial_number" value="{{ $record['nfc_tag_id'] }}">
+                                    <button type="submit" class="btn btn-danger">Move to Scrap</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 
 @endsection
 
 @section('scripts')
-@parent
-<script>
-    $(document).ready(function () {
-
-        $('.moveToScrap').click(function() {
-            var nfcTagId = $(this).data('nfcTagId');
-            $.ajax({
-                url: '/scrap-item',
-                type: 'POST',
-                data: { nfc_tag_id: nfcTagId },
-                success: function (response) {
-                    if (response.success) {
-                        alert("Item moved to scrap successfully!");
-                        $('.datatable-Item').DataTable().ajax.reload();
-                    } else {
-                        alert("Error: " + response.message);
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error("Error:", textStatus, errorThrown);
-                    alert("An error occurred. Please try again later.");
-                }
-            });
-        });
-    });
-</script>
+    @parent
+    <script>
+    </script>
 @endsection
