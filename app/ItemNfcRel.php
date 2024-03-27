@@ -24,7 +24,7 @@ class ItemNfcRel extends Model
     protected $fillable = [
         'nfc_serial_number',
         'item_id',
-
+        'status',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
